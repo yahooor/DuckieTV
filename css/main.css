@@ -641,16 +641,7 @@ series-list > div {
 series-list > div.active {
     -webkit-transform: translate3d(0, 0, 0);
 }
-series-list .tools {
-    width: 100%;
-    text-align: right;
-    padding: 22px 60px 22px 85px;
-    font-size: 20px;
-    box-shadow: 0 3px 8px black;
-    background-color: rgb(51, 51, 51);
-    z-index:1000;
-    position: absolute;
-}
+
 
 series-list .filtertools.collapsing {
     transition: all .5s ease-in-out;
@@ -1953,4 +1944,75 @@ sidepanel .leftpanel.torrents {
     height: 165px;
     margin-bottom: 0;
   }
+}
+
+series-list .tools {
+    width: 100%;
+    padding: 0px 0px 0px 58px;
+    font-size: 16px;
+    box-shadow: 0 3px 8px black;
+    background-color: rgb(51, 51, 51);
+    z-index: 1000;
+    position: absolute;
+}
+
+.tools_switch {
+    color: gray;
+}
+.tools_switch .dropdown-toggle {
+    color: rgb(240,240,240);
+}
+.tools_switch .dropdown-toggle span {
+    cursor: pointer;
+}
+.tools_switch .dropdown-toggle .caret {
+    border-top: 6px solid;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    margin-bottom: 3px;
+}
+.tools_switch .open .dropdown-items {
+    display: initial;
+}
+.tools_switch .dropdown-items {
+    display: none;
+    position: absolute;
+    right: 0;
+    left: auto;
+    line-height: 40px;
+    background: rgb(51, 51, 51);
+    box-shadow: 0 1px 3px rgba(0,0,0,.45),0 0 15px rgba(0,0,0,.25)
+}
+.tools_switch .dropdown-item {
+    cursor: pointer;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: #c4c4c4;
+    display: block;
+    white-space: nowrap;
+}
+.tools_switch .dropdown-item:hover {
+    background: #ddd;
+}
+
+
+.tools_btn {
+    padding: 10px;
+    text-decoration: none;
+    color: gray;
+}
+.tools_btn:first-child {
+    padding-left: 0px;
+}
+.tools_btn.active {
+    color: rgb(240,240,240);
+}
+
+.dot {
+    margin: 6.5px;
+    color: gray;
+}
+.dot:before {
+    content: '\2022';
+    font-style: normal;
 }

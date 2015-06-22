@@ -1,7 +1,44 @@
 <!-- seriesList.html -->
 <div ng-class="{active: serieslist.activated }" style="width:{{serieslist.width}}px">
     <div ng-if="serieslist.activated">
-        <div ui-view="tools" class="tools"></div>
+		<div class="tools">
+			<div class="tools-header" style="border-bottom:rgba(0,0,0,.08) solid 1px;text-transform:uppercase;font-weight:600;padding:15px 40px 15px 90px;line-height:1.5">
+				<div style="position:relative">
+					<div class="right-switches" style="float:right;width:auto;line-height:inherit">
+						<div class="tools_switch">
+							View As:
+
+							<span class="dropdown" dropdown on-toggle="toggled(open)">
+						      <span class="dropdown-toggle" dropdown-toggle style="color:rgb(240,240,240)">
+						        <span ng-show="serieslist.mode == 'poster'">Poster</span>
+								<span ng-show="serieslist.mode == 'banner'">Banner</span>
+								<i class="caret"></i>
+						      </span>
+						      <span class="dropdown-items" style="color:gray">
+						        <span class="dropdown-item" ng-click="serieslist.mode = 'poster'">Poster</span>
+				                <span class="dropdown-item" ng-click="serieslist.mode = 'banner'">Banner</span>
+						      </span>
+						    </span>
+						</div>
+					</div>
+					<div class="header-main" style="position:static;width:auto">
+						<div style="position:relative;overflow:hidden">
+							<div style="position:relative;overflow:hidden;white-space:nowrap">
+								<a href="" class="tools_btn" ui-sref="favorites" ui-sref-active="active">Library</a>
+								<i class="dot"></i>
+								<a href="" class="tools_btn" ui-sref="favorites.add" ui-sref-active="active">
+									<span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
+								</a>
+								<i class="dot"></i>
+								<a href="" class="tools_btn" ui-sref="favorites.search" ui-sref-active="active">
+								<span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
         <div ui-view="content"></div>
     </div>
 </div>
