@@ -1991,7 +1991,8 @@ series-list .tools {
     line-height: 40px;
     background: rgb(51, 51, 51);
     color: gray;
-    box-shadow: 0 1px 3px rgba(0,0,0,.45),0 0 15px rgba(0,0,0,.25)
+    box-shadow: 0 1px 3px rgba(0,0,0,.45),0 0 15px rgba(0,0,0,.25);
+    z-index: 5000;
 }
 .tools_switch .open .dropdown-items {
     display: initial;
