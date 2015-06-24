@@ -1952,12 +1952,24 @@ series-list .tools {
     font-size: 16px;
     box-shadow: 0 3px 8px black;
     background-color: rgb(51, 51, 51);
-    z-index: 1000;
     position: absolute;
 }
 
+.tools-header {
+    text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0px 40px 0px 90px;
+}
+
+.right-switches {
+    float: right;
+    width: auto;
+}
 .tools_switch {
     color: gray;
+    display: inline-block;
+    padding: 17px;
 }
 .tools_switch .dropdown-toggle {
     color: rgb(240,240,240);
@@ -1971,9 +1983,6 @@ series-list .tools {
     border-left: 6px solid transparent;
     margin-bottom: 3px;
 }
-.tools_switch .open .dropdown-items {
-    display: initial;
-}
 .tools_switch .dropdown-items {
     display: none;
     position: absolute;
@@ -1981,7 +1990,11 @@ series-list .tools {
     left: auto;
     line-height: 40px;
     background: rgb(51, 51, 51);
+    color: gray;
     box-shadow: 0 1px 3px rgba(0,0,0,.45),0 0 15px rgba(0,0,0,.25)
+}
+.tools_switch .open .dropdown-items {
+    display: initial;
 }
 .tools_switch .dropdown-item {
     cursor: pointer;
@@ -1995,17 +2008,31 @@ series-list .tools {
     background: #ddd;
 }
 
-
 .tools_btn {
-    padding: 10px;
-    text-decoration: none;
+    padding: 17px;
+    display: inline-block;
+}
+.tools_btn a {
     color: gray;
 }
-.tools_btn:first-child {
-    padding-left: 0px;
+.tools_btn a span {
+    cursor: pointer;
 }
 .tools_btn.active {
+    border-bottom: 2px solid white;
+}
+.tools_btn.active a {
     color: rgb(240,240,240);
+}
+
+.header-main {
+    position: static;
+    width: auto;
+}
+.header-main-inner {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .dot {
