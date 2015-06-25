@@ -1969,7 +1969,7 @@ series-list .tools {
 .tools_switch {
     color: gray;
     display: inline-block;
-    padding: 17px;
+    padding: 16px;
 }
 .tools_switch .dropdown-toggle {
     color: rgb(240,240,240);
@@ -1982,6 +1982,7 @@ series-list .tools {
     border-right: 6px solid transparent;
     border-left: 6px solid transparent;
     margin-bottom: 3px;
+    cursor: pointer;
 }
 .tools_switch .dropdown-items {
     display: none;
@@ -2010,7 +2011,7 @@ series-list .tools {
 }
 
 .tools_btn {
-    padding: 17px;
+    padding: 16px;
     display: inline-block;
 }
 .tools_btn a {
