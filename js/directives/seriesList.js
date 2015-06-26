@@ -95,16 +95,15 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 posterHeight = isMini ? 205 : 250;
                 oldClientWidth = el.clientWidth;
                 verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 70;
-                horizontalOffset = el.getAttribute('horizontal-offset') ? parseInt(el.getAttribute('horizontal-offset')) : 100;
-                postersPerRow = Math.floor(el.clientWidth / posterWidth);
+                padding = el.getAttribute('grid-padding') ? parseInt(el.getAttribute('grid-padding')) : 0;
+                postersPerRow = Math.floor((el.clientWidth - (padding * 2)) / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
+                $scope.$applyAsync();
                 scrollToActive();
             }
 
             var observer = new MutationObserver(function(mutations) {
                 recalculate();
-                scrollToActive();
-                $scope.$applyAsync();
             });
 
             // configuration of the observer:
@@ -115,12 +114,24 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             observer.observe(el, config);
             observer.observe(document.querySelector('sidepanel'), config);
 
-            this.getLeft = function(idx) {
+            this.getLeft = function(idx, max) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();
                 }
-                return centeringOffset + (idx % postersPerRow) * posterWidth;
+                var rowCentering = 0;
+                var leftovers = max - (max % postersPerRow);
+                if (max < postersPerRow || idx >= leftovers) { // if we're on the last line
+                    var postersInRow = max < postersPerRow ? max : max - leftovers;
+                    rowCentering = (el.clientWidth / 2) - ((postersInRow * posterWidth) / 2) - rowCentering;
+                    var positionInRow = postersInRow - (max - idx);
+                    return rowCentering + (positionInRow * posterWidth);
+                } else {
+                    return centeringOffset + rowCentering + ((idx % postersPerRow) * posterWidth);
+                }
+
             };
+
+
             this.getTop = function(idx) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();

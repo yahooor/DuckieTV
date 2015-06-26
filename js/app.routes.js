@@ -59,7 +59,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         function findSerieByID($stateParams) {
             return CRUD.FindOne('Serie', {
                 ID_Serie: $stateParams.id
-            })
+            });
         }
 
         // if the path doesn't match any of the urls you configured
@@ -87,8 +87,10 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     return SidePanelState;
                 },
                 FavoritesService: function(FavoritesService) {
-                    return FavoritesService;
-                }
+                    return FavoritesService.waitForInitialization().then(function() {
+                        return FavoritesService;
+                    });
+                },
             },
             views: {
                 favorites: {
@@ -111,6 +113,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.search', {
             url: '/search',
+
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/localfilter.html',
@@ -126,9 +129,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.add', {
             url: '/add',
-            resolve: {
-                SidePanelState: showSidePanel
-            },
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
@@ -154,32 +154,37 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 }
             }
         })
-            .state('favorites.add.search', {
-                url: '/search/:query',
-                resolve: {
-                    SidePanelState: showSidePanel
-                },
-                views: {
-                    'content@favorites': {
-                        templateUrl: 'templates/serieslist/trakt-searching.html',
-                        controller: 'traktTvSearchCtrl',
-                        controllerAs: 'traktSearch'
-                    }
+
+        .state('favorites.add.search', {
+            url: '/search/:query',
+            resolve: {
+                SidePanelState: showSidePanel
+            },
+            views: {
+                'content@favorites': {
+                    templateUrl: 'templates/serieslist/trakt-searching.html',
+                    controller: 'traktTvSearchCtrl',
+                    controllerAs: 'traktSearch'
                 }
-            })
-            .state('trakt-serie', {
-                sticky: true,
-                resolve: {
-                    SidePanelState: showSidePanel
-                },
-                views: {
-                    sidePanel: {
-                        templateUrl: 'templates/sidepanel/trakt-serie-details.html',
-                        controller: 'sidepanelTraktSerieCtrl',
-                        controllerAs: 'sidepanel'
-                    }
+            }
+        })
+
+        .state('favorites.add.trakt-serie', {
+            url: '/info/:id',
+            resolve: {
+                SidePanelState: showSidePanel,
+                serie: function($state, $stateParams, TraktTVTrending) {
+                    return TraktTVTrending.getById($stateParams.id);
                 }
-            })
+            },
+            views: {
+                'sidePanel@': {
+                    templateUrl: 'templates/sidepanel/trakt-serie-details.html',
+                    controller: 'sidepanelTraktSerieCtrl',
+                    controllerAs: 'sidepanel'
+                }
+            }
+        })
 
 
         .state('watchlist', {
