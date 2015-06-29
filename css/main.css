@@ -1959,12 +1959,17 @@ series-list .tools {
     position: absolute;
 }
 
+.tools .fadeout {
+    opacity: 0;
+}
+
 .tools-header {
     text-transform: uppercase;
     font-weight: 600;
     line-height: 1.5;
     padding: 0px 40px 0px 90px;
 }
+
 .tools-header .tooltip {
     text-transform: initial;
     font-weight: initial;
@@ -1973,23 +1978,33 @@ series-list .tools {
 .right-switches {
     float: right;
     width: auto;
+    transition: opacity 0.3s ease-in-out;
 }
+
 .tools_switch {
     color: gray;
     display: inline-block;
     padding: 16px;
+    transition: inherit;
 }
+
 .tools_switch .view-as {
     display: inline-block;
     margin-right: 10px;
+    transition: inherit;
 }
+
 .tools_switch .poster-size {
     display: inline-block;
-    transition: opacity .3s ease-in-out;
+    transition: inherit;
 }
-.tools_switch .poster-size[mode=banner] {
-    opacity: 0;
+.tools_switch .poster-size span i {
+    font-size: 20px;
+    top: 3px;
+    color: white;
+    cursor: pointer;
 }
+
 .tools_switch .dropdown-toggle {
     color: rgb(240,240,240);
 }
@@ -2003,6 +2018,7 @@ series-list .tools {
     margin-bottom: 3px;
     cursor: pointer;
 }
+
 .tools_switch .dropdown-items {
     display: none;
     position: absolute;
@@ -2017,6 +2033,7 @@ series-list .tools {
 .tools_switch .open .dropdown-items {
     display: initial;
 }
+
 .tools_switch .dropdown-item {
     cursor: pointer;
     padding-left: 10px;

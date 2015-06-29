@@ -4,6 +4,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         var serieslist = this;
 
         this.state = $state;
+
         this.width = SidePanelState.state.isExpanded ? document.body.clientWidth - 800 : SidePanelState.state.isShowing ? document.body.clientWidth - 400 : document.body.clientWidth;
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
@@ -142,6 +143,10 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             this.activated = false;
             document.body.style.overflowY = 'auto';
         };
+
+        this.hideSidePanel = function() {
+            SidePanelState.hide();
+        }
 
         /**
          * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.

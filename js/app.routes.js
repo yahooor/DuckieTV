@@ -99,30 +99,11 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controllerAs: 'serieslist',
                     bindToController: true
                 },
-                'tools@favorites': {
-                    templateUrl: 'templates/serieslist/tools/favorites.html'
-                },
                 'content@favorites': {
                     templateUrl: 'templates/serieslist/favorites.html',
                     controller: 'localSeriesCtrl',
                     controllerAs: 'local',
                     bindToController: true
-                }
-            }
-        })
-
-        .state('favorites.search', {
-            url: '/search',
-
-            views: {
-                'tools@favorites': {
-                    templateUrl: 'templates/serieslist/tools/localfilter.html',
-                    controller: 'localSeriesCtrl',
-                    controllerAs: 'localFilter',
-                    bindToController: true
-                },
-                'content@favorites': {
-                    templateUrl: 'templates/serieslist/searchresults.html'
                 }
             }
         })

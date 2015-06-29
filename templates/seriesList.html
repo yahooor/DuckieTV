@@ -5,7 +5,7 @@
       <div class="tools-header">
         <div class="right-switches">
           <div class="tools_switch">
-            <div class="view-as">
+            <div class="view-as" ng-class="{'fadeout':serieslist.state.includes('favorites.add')}">
               View As:
               <span class="dropdown" dropdown on-toggle="toggled(open)">
                 <span class="dropdown-toggle" dropdown-toggle>
@@ -20,18 +20,18 @@
                 </span>
               </span>
             </div>
-            <div class="poster-size" mode="{{serieslist.mode}}">
+            <div class="poster-size" ng-class="{'fadeout':serieslist.mode == 'banner'}">
               <!-- Make posters smaller button -->
-              <span ng-click="serieslist.toggleSmall()" style="display:inline-block">
-                <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
+              <span ng-click="serieslist.toggleSmall()">
+                <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
               </span>
             </div>
           </div>
         </div>
         <div class="header-main">
           <div class="header-main-inner">
-            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites')}">
-              <a ui-sref="favorites">Library</a>
+            <div class="tools_btn" ng-class="{'active': (serieslist.state.is('favorites') && serieslist.isFiltering == false)}">
+              <a ui-sref="favorites" ng-click="serieslist.hideSidePanel();serieslist.isFiltering = false">Library</a>
             </div>
             <i class="dot"></i>
             <div class="tools_btn" ng-class="{'active': serieslist.state.includes('favorites.add')}">
@@ -40,8 +40,8 @@
               </a>
             </div>
             <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites.search')}">
-              <a ui-sref="favorites">
+            <div class="tools_btn" ng-class="{'active': serieslist.isFiltering == true}">
+              <a ui-sref="favorites" ng-click="serieslist.hideSidePanel();serieslist.isFiltering = true">
                 <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>  Library
               </a>
             </div>
