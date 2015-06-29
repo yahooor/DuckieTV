@@ -1,47 +1,55 @@
 <!-- seriesList.html -->
-<div ng-class="{active: serieslist.activated }" style="width:{{serieslist.width}}px">
-    <div ng-if="serieslist.activated">
-    	<div class="tools">
-			<div class="tools-header">
-				<div class="right-switches">
-					<div class="tools_switch">
-						View As:
-						<span class="dropdown" dropdown on-toggle="toggled(open)">
-				      <span class="dropdown-toggle" dropdown-toggle>
-				        <span ng-show="serieslist.mode == 'poster'">Poster</span>
-								<span ng-show="serieslist.mode == 'banner'">Banner</span>
-								<i class="caret"></i>
-				      </span>
-				      <span class="dropdown-items">
-				        <span class="dropdown-item" ng-click="serieslist.mode = 'poster'">Poster</span>
-		            <span class="dropdown-item" ng-click="serieslist.mode = 'banner'">Banner</span>
-		            <span class="dropdown-item">List</span>
-				      </span>
-				    </span>
-					</div>
-				</div>
-				<div class="header-main">
-					<div class="header-main-inner">
-						<div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites')}">
-							<a ui-sref="favorites">Library</a>
-						</div>
-						<i class="dot"></i>
-						<div class="tools_btn" ng-class="{'active': serieslist.state.includes('favorites.add')}">
-							<a ui-sref="favorites.add">
-								<span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
-							</a>
-						</div>
-						<i class="dot"></i>
-						<div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites.search')}">
-							<a ui-sref="favorites.search">
-								<span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div ui-view="tools" style="position:absolute;top:70px;width:100%;left:150px;z-index:3500"></div>
-        <div ui-view="content"></div>
+<div ng-class="{active: serieslist.activated}" style="width:{{serieslist.width}}px">
+  <div ng-if="serieslist.activated">
+    <div class="tools">
+      <div class="tools-header">
+        <div class="right-switches">
+          <div class="tools_switch">
+            <div class="view-as">
+              View As:
+              <span class="dropdown" dropdown on-toggle="toggled(open)">
+                <span class="dropdown-toggle" dropdown-toggle>
+                  <span ng-show="serieslist.mode == 'poster'">Poster</span>
+                  <span ng-show="serieslist.mode == 'banner'">Banner</span>
+                  <i class="caret"></i>
+                </span>
+                <span class="dropdown-items">
+                  <span class="dropdown-item" ng-click="serieslist.setMode('poster')">Poster</span>
+                  <span class="dropdown-item" ng-click="serieslist.setMode('banner')">Banner</span>
+                  <span class="dropdown-item">List</span>
+                </span>
+              </span>
+            </div>
+            <div class="poster-size" mode="{{serieslist.mode}}">
+              <!-- Make posters smaller button -->
+              <span ng-click="serieslist.toggleSmall()" style="display:inline-block">
+                <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="header-main">
+          <div class="header-main-inner">
+            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites')}">
+              <a ui-sref="favorites">Library</a>
+            </div>
+            <i class="dot"></i>
+            <div class="tools_btn" ng-class="{'active': serieslist.state.includes('favorites.add')}">
+              <a ui-sref="favorites.add">
+                <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
+              </a>
+            </div>
+            <i class="dot"></i>
+            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites.search')}">
+              <a ui-sref="favorites">
+                <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>  Library
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div ui-view="tools" style="position:absolute;top:70px;width:100%;left:150px;z-index:3500"></div>
+    <div ui-view="content"></div>
+  </div>
 </div>

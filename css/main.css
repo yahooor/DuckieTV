@@ -1965,6 +1965,10 @@ series-list .tools {
     line-height: 1.5;
     padding: 0px 40px 0px 90px;
 }
+.tools-header .tooltip {
+    text-transform: initial;
+    font-weight: initial;
+}
 
 .right-switches {
     float: right;
@@ -1974,6 +1978,17 @@ series-list .tools {
     color: gray;
     display: inline-block;
     padding: 16px;
+}
+.tools_switch .view-as {
+    display: inline-block;
+    margin-right: 10px;
+}
+.tools_switch .poster-size {
+    display: inline-block;
+    transition: opacity .3s ease-in-out;
+}
+.tools_switch .poster-size[mode=banner] {
+    opacity: 0;
 }
 .tools_switch .dropdown-toggle {
     color: rgb(240,240,240);
