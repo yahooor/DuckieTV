@@ -30,8 +30,8 @@
         </div>
         <div class="header-main">
           <div class="header-main-inner">
-            <div class="tools_btn" ng-class="{'active': (serieslist.state.is('favorites') && serieslist.isFiltering == false)}">
-              <a ui-sref="favorites" ng-click="serieslist.hideSidePanel();serieslist.isFiltering = false">Library</a>
+            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites')}">
+              <a ui-sref="favorites" ng-click="serieslist.hideSidePanel()">Library</a>
             </div>
             <i class="dot"></i>
             <div class="tools_btn" ng-class="{'active': serieslist.state.includes('favorites.add')}">
@@ -40,8 +40,8 @@
               </a>
             </div>
             <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.isFiltering == true}">
-              <a ui-sref="favorites" ng-click="serieslist.hideSidePanel();serieslist.isFiltering = true">
+            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites.search')}">
+              <a ui-sref="favorites.search" ng-click="serieslist.hideSidePanel()">
                 <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>  Library
               </a>
             </div>
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div ui-view="tools" style="position:absolute;top:70px;width:100%;left:150px;z-index:3500"></div>
+    <div ui-view="tools" style="position:absolute;top:72px;width:100%;left:150px;z-index:3500"></div>
     <div ui-view="content"></div>
   </div>
 </div>

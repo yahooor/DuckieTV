@@ -1999,7 +1999,7 @@ series-list .tools {
     transition: inherit;
 }
 .tools_switch .poster-size span i {
-    font-size: 20px;
+    font-size: 18px;
     top: 3px;
     color: white;
     cursor: pointer;
