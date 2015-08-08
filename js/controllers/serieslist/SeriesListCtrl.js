@@ -2,7 +2,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
     function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http) {
 
         var serieslist = this;
-        
         this.state = $state;
 
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated

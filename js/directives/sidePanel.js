@@ -1,5 +1,4 @@
 DuckieTV.factory('SidePanelState', function() {
-
     var service = {
         state: {
             isShowing: false,
@@ -12,17 +11,22 @@ DuckieTV.factory('SidePanelState', function() {
             document.body.scrollTop = 0;
             service.state.isShowing = true;
             service.state.isExpanded = false;
-
+            document.body.classList.add('sidePanelActive');
+            document.body.classList.remove('sidePanelExpanded');
         },
         hide: function() {
             document.body.style.overflowY = 'auto';
             service.state.isShowing = false;
             service.state.isExpanded = false;
+            document.body.classList.remove('sidePanelActive');
+            document.body.classList.remove('sidePanelExpanded');
         },
         expand: function() {
+            document.body.classList.add('sidePanelExpanded');
             service.state.isExpanded = true;
         },
         contract: function() {
+            document.body.classList.remove('sidePanelExpanded');
             service.state.isExpanded = false;
         }
     };

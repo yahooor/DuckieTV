@@ -13,7 +13,9 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         }
 
         function expandSidePanel(SidePanelState) {
-            SidePanelState.show();
+            if (!SidePanelState.state.isShowing) {
+                SidePanelState.show();
+            }
             SidePanelState.expand();
             return SidePanelState;
         }
@@ -102,7 +104,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.search', {
             url: '/search',
-
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/localfilter.html',
