@@ -43,9 +43,14 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
     return {
         restrict: 'A',
         controllerAs: 'grid',
-        controller: function($scope, SidePanelState) {
+        controller: function($scope, SidePanelState, SettingsService) {
+            if (SettingsService.get('library.seriesgrid') == false) {
+                return;
+            }
             var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
-            var el = document.querySelector('[series-grid]');
+            var container = document.querySelector('[series-grid]');
+            var el = container.querySelector('.series-grid');
+            var noScroll = container.hasAttribute('no-scroll');
 
             // ease in out function thanks to:
             // http://blog.greweb.fr/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
@@ -59,7 +64,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             var smoothScroll = function(parent, el, duration) {
-                if (el === null || !el.offsetParent || !el.offsetParent.offsetParent) {
+                if (el === null || !el.offsetParent || !el.offsetParent.offsetParent || noScroll) {
                     return;
                 }
                 duration = duration || 500;
@@ -81,7 +86,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             scrollToActive = function() {
                 clearTimeout(activeScroller);
                 activeScroller = setTimeout(function() {
-                    smoothScroll(el, document.querySelector('serieheader .active'));
+                    smoothScroll(container, el.querySelector('serieheader .active'));
                 }, 800);
             };
 
@@ -90,14 +95,17 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             function recalculate() {
-                var isMini = el.classList.contains('miniposter');
-                posterWidth = isMini ? 140 : 170;
-                posterHeight = isMini ? 205 : 250;
+                var isMini = container.classList.contains('miniposter');
+                var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0;
+                posterWidth = isMini ? 140 : 175; // Includes paddings
+                posterHeight = isMini ? 206 : 258; // Includes paddings
                 oldClientWidth = el.clientWidth;
-                verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 70;
-                padding = el.getAttribute('grid-padding') ? parseInt(el.getAttribute('grid-padding')) : 0;
-                postersPerRow = Math.floor((el.clientWidth - (padding * 2)) / posterWidth);
+                postersPerRow = Math.floor(el.clientWidth / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
+
+                if (maxPosters != 0) {
+                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight)+'px';
+                }
                 $scope.$applyAsync();
                 scrollToActive();
             }
@@ -111,7 +119,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 attributes: true
             };
 
-            observer.observe(el, config);
+            observer.observe(container, config);
             observer.observe(document.querySelector('sidepanel'), config);
 
             this.getLeft = function(idx, max) {
@@ -128,16 +136,14 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 } else {
                     return centeringOffset + rowCentering + ((idx % postersPerRow) * posterWidth);
                 }
-
             };
-
 
             this.getTop = function(idx) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();
                 }
                 idx = idx + 1;
-                return (Math.ceil(idx / postersPerRow) * posterHeight) - posterHeight + verticalOffset;
+                return (Math.ceil(idx / postersPerRow) * posterHeight) - posterHeight;
             };
         }
     };

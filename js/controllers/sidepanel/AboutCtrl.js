@@ -9,6 +9,20 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
         $scope.statistics = [];
 
+        // defined by utility.js
+        $scope.optInTrackingEnabled = localStorage.getItem('optin_error_reporting');
+        $scope.uniqueTrackingID = localStorage.getItem('uniqueId');
+
+        $scope.toggleOptInErrorReporting = function() {
+            if (localStorage.getItem('optin_error_reporting')) {
+                localStorage.removeItem('optin_error_reporting');
+                $scope.optInTrackingEnabled = false;
+            } else {
+                localStorage.setItem('optin_error_reporting', true);
+                window.location.reload();
+            }
+        };
+
         getStats = function() {
             // Get Screen Size
             var screenSize = '';
@@ -16,11 +30,11 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 width = (screen.width) ? screen.width : '';
                 height = (screen.height) ? screen.height : '';
                 screenSize += '' + width + " x " + height;
-            };
+            }
 
             // Get Database Stats
             countEntity = function(entity) {
-                CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(function(result) {
+                CRUD.executeQuery('select count(*) as count from ' + entity).then(function(result) {
                     $scope.statistics.push({
                         name: "DB " + entity,
                         data: result.next().row.count
@@ -30,7 +44,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
             // Count shows hidden from calendar
             countHiddenShows = function() {
-                CRUD.EntityManager.getAdapter().db.execute("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
+                CRUD.executeQuery("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
                     $scope.statistics.push({
                         name: "DB Series Hidden From Calendar",
                         data: result.next().row.count
@@ -55,18 +69,21 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                                 name: 'Storage Sync has',
                                 data: 'Never Signed in to Google'
                             });
-                        };
+                        }
                     });
                 } else {
                     $scope.statistics.push({
                         name: 'Storage Sync is',
                         data: 'Not Available'
                     });
-                };
+                }
             };
 
             // Get current torrent mirror
-            var activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
+            var activeTorrentingMirror = 'n/a';
+            if (SettingsService.get('torrenting.enabled')) {
+                activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
+            };
 
             // Get date of last trakt update
             var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
@@ -125,14 +142,22 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             angular.forEach(userPrefs, function(value, key) {
                 if (key.indexOf('password') > -1) {
                     userPrefs[key] = "*****";
-                };
+                }
             });
             $scope.statistics.push({
                 name: 'User Preferences on Local Storage',
-                data: angular.toJson(userPrefs,true)
+                data: angular.toJson(userPrefs, true)
             });
 
-        }
+            // dump local storage with exceptions to avoid overload.
+            var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage)); 
+            ['userPreferences','torrenting.hashList','trakt.token','trakttv.trending.cache','alarms'].map(function(key) { delete dumpLocalStorage[key]; });
+            $scope.statistics.push({
+                name: 'Other significant Local Storage keys', 
+                data: angular.toJson(dumpLocalStorage, true)
+            });
+
+        };
         getStats();
     }
 ]);

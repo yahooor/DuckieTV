@@ -118,7 +118,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 });
                 Object.keys(calendarEvents).map(function(day) {
                     if (dates.indexOf(day) == -1) {
-                        console.log("Cleaning up day: ", day);
+                        //console.debug("Cleaning up day: ", day);
                         delete calendarEvents[day];
                         delete seriesForDate[day];
                     }
@@ -183,7 +183,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                             serie: serie,
                             episode: episodes[id]
                         });
-                    })
+                    });
                 });
                 $rootScope.$applyAsync();
             },
@@ -192,6 +192,18 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              */
             hasEvent: function(date) {
                 return (new Date(date).toDateString() in calendarEvents);
+            },
+
+            markDayWatched: function(day, rootScope) {
+                var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
+                if (str in calendarEvents) {
+                    calendarEvents[str].map(function(calEvent) {
+                        if (calEvent.episode.hasAired()) {
+                            calEvent.episode.markWatched(rootScope);
+                            //console.debug("Mark calendar eventwatched: ", calEvent);
+                        }
+                    })
+                }
             },
             /**
              * Return events for a date or an empty array

@@ -8,9 +8,11 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         var categories = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()        
         var translatedCategoryList = $filter('translate')('GENRELIST').split(',');
 
-        this.getFavorites = function() {
-            return FavoritesService.favorites;
-        };
+        FavoritesService.waitForInitialization().then(function() {
+            if(FavoritesService.favorites.length == 0) {
+                trending.noFavs = true;
+            }
+        });
 
         /*
          * Takes the English Category (as fetched from TraktTV) and returns a translation
@@ -25,7 +27,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         },
 
         this.toggleCategory = function(category) {
-            if (!category) {
+            if (!category || this.activeCategory == category) {
                 this.activeCategory = false;
                 TraktTVTrending.getAll().then(function(result) {
                     trending.filtered = result;

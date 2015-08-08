@@ -6,10 +6,20 @@ p, input, select, span, #aboutpage {
     -webkit-user-select: initial;
 }
 
+option {
+    background-color: rgba(0,0,0,0.8) !important;
+    color: white !important;
+}
+
+input:disabled {
+    background-color: rgba(0,0,0,0.8 !important);
+    border-color: rgba(255,0,0,0.1) !important;
+}
+
 p, span {
     cursor: default;
 }
-=
+
  @charset"UTF-8";
  @font-face {
     font-family:'bebasbold';
@@ -50,9 +60,20 @@ body .tooltip.left .tooltip-arrow {
     border-bottom-color: transparent !important;
     border-left-color: white;
 }
+.tooltip .tooltip-arrow {
+    border-top-color: white !important;
+    border-bottom-color: white !important;
+}
+.tooltip .tooltip-inner {
+    background-color: white !important;
+    color: black !important;
+    text-shadow: none !important;
+    white-space: normal;
+}
 .tooltip {
     border: 0 !important;
 }
+
 .printlogo {
     display: none;
 }
@@ -63,7 +84,7 @@ body .tooltip.left .tooltip-arrow {
     width: 40%;
 }
 input::-webkit-input-placeholder {
-    color: white !important;
+    color: rgba(255,255,255,0.4) !important;
     font-style: italic;
     font-family:'bebasregular', helvetica, sans-serif;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
@@ -91,12 +112,15 @@ strong {
     font-family:'bebasregular';
     letter-spacing: 2px;
 }
-a, a:hover {
+a, a:hover, a:focus, a span {
     color: white;
     cursor: pointer;
 }
 a:hover {
     text-decoration: underline;
+}
+a:hover .glyphicon {
+    text-decoration: none;
 }
 *::-webkit-scrollbar{
     width:10px;
@@ -119,7 +143,6 @@ a:hover {
     background-color:#5C5C5C;
 }
 
-
 .windowChrome {
     display:none;
     position: fixed;
@@ -132,8 +155,6 @@ a:hover {
     -webkit-app-region: drag;
     padding: 1px 10px 0px 1px;
 }
-
-
 .windowChrome button {
     -webkit-app-region: no-drag;
     -webkit-appearance: none;
@@ -142,25 +163,13 @@ a:hover {
     border:none;
     -webkit-transition: all 0.2s ease-in;
 }
-
 .windowChrome button:hover {
     background-color: rgba(255,255,255, 0.4);
 }
-
 .standalone .windowChrome {
     display: block;
-    
 }
 
-.tooltip .tooltip-arrow {
-    border-top-color: white !important;
-    border-bottom-color: white !important;
-}
-.tooltip .tooltip-inner {
-    background-color: white !important;
-    color: black !important;
-    text-shadow: none !important;
-}
 background-rotator, background-rotator > div {
     width: 100%;
     height: 100%;
@@ -173,6 +182,7 @@ background-rotator, background-rotator > div {
     z-index: -1;
     opacity: 0.4;
 }
+
 #actionbar {
     position: fixed;
     top: 0px;
@@ -199,120 +209,132 @@ background-rotator, background-rotator > div {
 #actionbar .logo:hover {
     -webkit-transform: rotate(360deg);
 }
+
 #actionbar ul {
     list-style-type:none;
     margin-top: 50px;
 }
 
-#actionbar a {
+#actionbar li {
     height: 58px;
-    padding: 18px;
-    font-size: 2.2rem;
-    color: white;
-    text-decoration:none;
-    text-shadow: 2px 2px rgba(25,25,25,0.8);
+    width: 58px;
+    font-size: 23.5px;
+    transition: background-color .3s;
 }
-
-#actionbar a.active {
-     background-color: rgba(70,70,70,0.8);
+#actionbar li.active {
+    background-color: rgba(70,70,70,0.8);
 }
-
-#actionbar a:hover, #actionbar .logo:hover {
+#actionbar li:hover, #actionbar .logo:hover {
     background-color: rgba(70,70,70,1);
-    -webkit-transition: background-color .5s;
 }
-#actionbar a:active, #actionbar .logo:active {
-    background-color: rgba(90,90,90,1);
-    -webkit-transition: background-color .125s;
+#actionbar a {
+    height: inherit;
+    width: inherit;
+    font-size: inherit;
+    color: white;
+    text-decoration: none;
+    text-shadow: 2px 2px rgba(25,25,25,0.8);
+    padding: 16.5px;
 }
-
-#actionbar_calendar {
+#actionbar_calendar a {
     opacity: 1;
     transition: all 0.5s ease-in-out;
     transform: rotate(0deg) scale(1);
+    left: 1px;
 }
-
-#actionbar_calendar.calendar_active {
+#actionbar_calendar.calendar_active a {
     transform: rotate(180deg) scale(0.1);
     opacity: 0;
 }
-
-#actionbar_favorites {
+#actionbar_calendar.calendar_active:hover {
+    background-color: transparent;
+}
+#actionbar_favorites a {
     opacity: 1;
     transition: all 0.5s ease-in-out;
     transform: rotateY(0deg);
+    left: -1px;
 }
-
-#actionbar_favorites.favorites_active {
-    transform: rotateY(360deg);
+#actionbar_favorites.active a {
     color: rgba(215, 85, 85, 0.8);
+    transform: rotateY(360deg);
 }
-
-#actionbar_torrent {
-  background-repeat: no-repeat;
-  background-position: center center;
-  padding: 29px !important;
-  background-size: 30px;
-  margin-bottom: -5px;
+#actionbar_torrent a {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 28px;
+    left: -0.5px;
 }
-
-#actionbar_torrent:after {
+#actionbar_torrent a:after {
     position: absolute;
     right: 10px;
     bottom:10px;
     content: '.';
 }
-
-#actionbar_torrent.offline:after {
+#actionbar_torrent a.offline:after {
     color: rgba(255,0,0,0.5);
 }
-#actionbar_torrent.connected:after {
+#actionbar_torrent a.connected:after {
     color: rgba(0,255,0,0.5);
 }
-#actionbar_torrent.connecting:after {
+#actionbar_torrent a.connecting:after {
     color: orange !important;
 }
-
-#actionbar_torrent.vuze {
+#actionbar_torrent a.vuze, .torrentlogo.vuze {
     background-image: url('../img/torrentclients/vuze-small.png');
 }
-
-#actionbar_torrent.utorrent {
+#actionbar_torrent a.utorrent, .torrentlogo.utorrent {
     background-image: url('../img/torrentclients/utorrent-small.png');
 }
-
-#actionbar_torrent.deluge {
+#actionbar_torrent a.deluge, .torrentlogo.deluge {
     background-image: url('../img/torrentclients/deluge-small.png');
 }
-
-#actionbar_torrent.transmission {
+#actionbar_torrent a.transmission, .torrentlogo.transmission {
     background-image: url('../img/torrentclients/transmission-small.png');
 }
-
-#actionbar_torrent.qbittorrent {
+#actionbar_torrent a.qbittorrent, .torrentlogo.qbittorrent {
     background-image: url('../img/torrentclients/qbittorrent-small.png');
 }
-
-#actionbar_torrent.tixati {
+#actionbar_torrent a.tixati, .torrentlogo.tixati {
     background-image: url('../img/torrentclients/tixati-small.png');
 }
+
+.torrentlogo {
+    display: inline-block;
+    width: 34px;
+    float: left;
+    height: 34px;
+    line-height: 35px;
+    margin-right: 9px;
+    background-repeat: no-repeat;
+}
+
+.settings .buttons .btn.choose-client {
+    cursor: pointer;
+    padding: 5px;
+    text-align: left;
+    line-height: 37px;
+    vertical-align: super;
+    padding-left: 25px;
+}
+
+.settings .buttons .btn.choose-client:hover {
+    color:white;
+} 
 
 .dropdown-menu>li>a {
       color: white;
 }
-
 .dropdown-menu {
-      background-color: #333;
-      color: white;
-      max-height: 550px;
-      overflow-y: auto;
-      padding: 0px 5px;
+    background-color: #333;
+    color: white;
+    max-height: 550px;
+    overflow-y: auto;
+    padding: 0px 5px;
 }
-
 .dropdown-menu li:hover {
     background-color: #444;
 }
-
 .dropdown-menu label {
     text-align: left;
     color: white;
@@ -327,50 +349,23 @@ background-rotator, background-rotator > div {
     margin:0;
     margin-bottom: -20px;
 }
-
 .navbar-default .btn {
     background-color:transparent;
     color:white;
     border-color: rgba(255,255,255,0.4);
 } 
-
 .navbar-collapse {
     padding-left:0;
     padding-right:0;
 }
-
 .navbar-form {
     padding: 0;
 }
-
 .typeahead ul {
     max-height: 150px;
     border: 1px solid #333;
     padding: 3px;
     overflow: auto;
-}
-
-serieheader > div {
-    position: relative;
-    overflow: hidden;
-}
-
-serieheader .badge {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    border-radius: 6px;
-    z-index: 1;
-    background-color: rgb(68,68,68);
-    opacity: 0.9;
-    transition: opacity 0.2s ease-in-out;
-}
-serieheader:hover .badge {
-    opacity: 1;
-}
-
-serieheader .active div {
-    border:1px solid yellow;
 }
 
 serieheader[mode='search'] {
@@ -388,86 +383,104 @@ serieheader[mode='search'] {
 serieheader[mode='search'] h3 {
     margin-top: 0;
 }
-
+serieheader .poster.active, serieheader .banner.active  {
+    border: 1px solid yellow;
+}
 serieheader[mode=banner] {
+    width: 50%;
+    height: 140px;
     overflow: hidden;
     display: inline-block;
-    width: 50%;
-    position: initial !important; /* Force initial to override the poster transition effects */
 }
-serieheader[mode=banner] h3 {
-    position: absolute;
-    margin-top: 0px;
-    display: block;
-    padding: 5px;
+serieheader[mode=banner] .serieheader {
+    position: relative;
     width: 100%;
-    box-sizing: content-box;
+    height: 100%;
+}
+serieheader .banner {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: border 0.2s ease-in-out;
+}
+serieheader .banner .img {
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+serieheader[mode=banner] .title {
     background-color: rgba(0, 0, 0, 0.8);
-    margin-bottom: 0;
-    -webkit-transition: all 0.2s ease-in-out;
+    transition: margin 0.2s ease-in-out;
     bottom: initial;
 }
-serieheader[mode=banner]:hover h3 {
+serieheader[mode=banner]:hover .title {
     margin-top: -36px;
 }
-serieheader[mode=banner].full {
-    overflow: visible;
-    width: 100%;
-    display: block
-}
-serieheader[mode=banner].full h3 {
-    margin-top: -36px;
-}
-serieheader[mode=banner].full .banner {
-    margin-bottom: 36px;
-    height: 180px;
-}
-serieheader[mode=banner].full h3 {
-}
 
-serieheader .banner {
-    height: 150px;
-    width: 100%;
-    background-repeat:no-repeat;
-    background-size: cover;
-    background-position: 50%;
+serieheader:hover .badge {
+    opacity: 1;
 }
-
-.series serieheader[mode='poster'] > div {
-    background-color: transparent;
-    border: 0;
+serieheader .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border-radius: 6px;
+    z-index: 1;
+    background-color: rgb(68,68,68);
+    opacity: 0.9;
+    transition: opacity 0.2s ease-in-out;
 }
-
+[series-grid=true] serieheader[mode=poster] {
+    position: absolute;
+    transition: top 0.4s ease-in-out, left 0.4s ease-in-out;
+}
 /* Main container for the posters 
  * Note: The posters class itself has no margins or paddings and is just the size of the poster
  * this means the only thing seperating the posters is this margin here. This allows easy distancing
  * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
-serieheader[mode='poster'] {
+serieheader[mode='poster'] .serieheader {
+    position: relative;
+    background-color: transparent;
+    border: 0;
     display: inline-block;
-    margin: 0px 9px 11px 9px;
-    -webkit-transition: all 0.5s ease-in-out;
+    margin: 0px 5px 11px 5px;
 }
+
 /* Standard Poster Size */
+.poster {
+    height: 247px;
+    width: 165px;
+}
+.poster.large {
+    height: 288px;
+    width: 192px;
+}
 serieheader .poster {
-    height: 240px;
-    width: 160px;
+    display: block;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out, background-color 0.175s ease-in-out, border 0.2s ease-in-out;
+}
+serieheader figure {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+serieheader .poster .img {
+    width: 100%;
+    height: 100%;
     /* Standard size fits most posters however some are slightly smaller
      *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    transition: opacity 0.2s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+    transition: opacity .175s ease-in-out;
 }
-/* Ideally a :not(.img-load-error) here would be ideal however the class
- * is only applied to the actual div loading the poster and :not does not
- * support combinator selectors :( and we can't apply the background color
- * to the same element that has the opacity change, perhaps a better 
- * lazy-background method is required */
-.series serieheader[mode='poster'] .imgcont, .seasons serieheader[mode='poster'] .imgcont {
+
+.series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
     background-color: #e5e5e5;
 }
-.series serieheader[mode='poster'] .imgcont:hover .poster, .seasons serieheader[mode='poster'] .imgcont:hover .poster {
-    opacity: 0.95 !important;
+.series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img {
+    opacity: 0.95;
 }
 /* Mini Poster style for series-list */
 .miniposter .poster {
@@ -485,19 +498,15 @@ serieheader .poster {
     font-size: 22px;
 }
 
-serieheader.full > div {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .col-md-4 serieheader .poster {
     width: 150px;
 }
 .col-md-4 serieheader[mode='poster'] {
     width: 160px;
 }
-serieheader h3 {
-    color:white;
-    background-color: rgba(0, 0, 0, 0.5);
+serieheader h3.title {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 5px;
     margin-bottom:0;
     white-space:nowrap;
@@ -510,39 +519,27 @@ serieheader h3 {
 serieheader[mode=search] h3 {
     position: initial;
 }
+/* Be naughty and override ng-hide override for titles if the image failed to load */
+
+.series .poster.img-load-error figcaption h3 {
+    display: initial !important;
+}
+.series.adding .poster.img-load-error figcaption h3 {
+    bottom: initial;
+    top: 0;
+}
 
 serieheader[mode=poster] h3 {
-    display: inline-block;
     font-size: 22px;
     word-break: break-word;
     white-space: normal;
+    margin: 0;
 }
-
 serieheader .overview {
     color: white;
     font-size:10px;
     color: white;
 }
-serieheader a:hover div.overview {
-    text-decoration:none !important;
-}
-serieheader.full .overview {
-    font-size: 14px;
-    padding: 10px;
-}
-serieheader aside {
-    position: absolute;
-    top:0;
-    right:-150px;
-    bottom:0;
-    width: 150px;
-    padding: 10px;
-    transition: right 0.5s ease-in-out;
-}
-serieheader:hover aside {
-    right: 0;
-}
-
 
 serieheader em.earmark {
     position: absolute;
@@ -562,18 +559,17 @@ serieheader em.earmark.trailer {
     background-color: transparent;
     border-bottom-right-radius: 5px;
     color: white;
-    -webkit-transition: all 0.2s ease-in;
+    transition: opacity 0.2s ease-in-out;
     opacity: 0;
 }
 
 serieheader em.earmark.trailer .glyphicon {
-        -webkit-filter: drop-shadow(2px 2px 2px black);
+    -webkit-filter: drop-shadow(2px 2px 2px black);
 }
 
-serieheader:hover em.earmark.trailer {
+serieheader .serieheader:hover em.earmark.trailer {
     opacity: 1;
 }
-
 
 serieheader em.earmark.adding {
     background-color: rgba(236,210,70, 0.8);
@@ -646,6 +642,12 @@ series-list > div.active {
     -webkit-transform: translate3d(0, 0, 0);
 }
 
+series-list > div.sidepanelActive {
+    width: calc(100% - 400px);
+}
+series-list > div.sidepanelExpanded {
+    width: calc(100% - 800px);
+}
 
 series-list .filtertools.collapsing {
     transition: all .5s ease-in-out;
@@ -675,15 +677,6 @@ series-list .filters {
 series-list p.protip {
     color: #ccc;
     font-size: 12px;
-}
-series-list .series serieheader > div {
-    border: 1px solid #111;
-}
-series-list .series serieheader:hover > div {
-    opacity: 1;
-}
-series-list .series serieheader+serieheader > div {
-    border-bottom:0;
 }
 
 trakt-tv-trending.series {
@@ -747,35 +740,91 @@ series-list .trakt-import .btn {
 .table.light {
     color: white;
 }
-table.markingaswatched {
-    border-style: dotted !important;
-}
-table.markingaswatched tr td {
-    border-bottom-style: dotted;
-    border-bottom-width: 1px;
-}
-th .btn-danger {
-    margin: 10px;
-}
-table.light h1 {
-    color:white;
-}
+
 .nobreaks {
     white-space: nowrap;
 }
-.markAsWatched td {
-    background-color: rgba(252, 248, 227, 0.3);
-    cursor: n-resize;
-}
-.serie h1 {
-    color:black;
-}
+
 .torrent-dialog, .subtitle-dialog {
     display: inline-block;
     list-style: none;
 }
 
+.modal-content table.torrents tr {
+    -webkit-transition: all 0.5s ease-in-out;
+}
 
+.modal-content table.torrents tr:hover {
+    background-color: #000;
+}
+
+.modal-content table.torrents tr:hover td {
+    border-top: 1px solid rgba(0,200,0, 0.2);
+    border-bottom: 1px solid rgba(0,200,0, 0.2);
+}
+
+/* CSS for formatting custom search editor */
+.modal-content .row {
+    margin-left: 0px;
+    margin-right: 0px;   
+}
+.modal-content .form-group {
+    margin:bottom: 0px;
+}
+
+#customSearchEngine .col-xs-8, #customSearchEngine .col-xs-10 {
+    padding-left: 0;
+}
+#customSearchEngine h1 {
+    margin-top: 10px;
+}
+.cseProperty:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e072";
+    transform: rotate(90deg);
+    position: absolute;
+    top: 39px;
+    right: 7px;
+    font-size: 8px;
+}
+.cseProperty select {
+    cursor: pointer;
+    -webkit-appearance: none;
+    padding: 0px 0px 0px 5px;
+}
+
+.inline-checkbox {
+    height: 60px;
+}
+.inline-checkbox label {
+    position: absolute;
+    left: 45px;
+    width: calc(100% - 45px);
+    font-family: 'bebasregular', helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: normal;
+    padding-left: 25px;
+}
+.inline-checkbox input[type=checkbox] {
+    position: absolute;
+    width: 30px
+}
+
+.log {
+    font-family: monospace;
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 5px 5px 5px 10px;
+}
+
+.log p {
+    margin: 0px;
+    padding: 2px;
+}
+
+.log p:nth-of-type(even) {
+    background-color: rgba(40,40,40,0.3);
+}
 
 chrome-top-sites {
     position: fixed;
@@ -886,9 +935,9 @@ chrome-top-sites a p {
     -webkit-box-orient: vertical;
 }
 .episode-watched {
-    display:inline-block;
-    text-align:center;
-    cursor:pointer;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
     font-size: 18px;
     margin: 0;
 }
@@ -897,9 +946,9 @@ chrome-top-sites a p {
     font-size: 18px;
 }
 .episode-downloaded {
-    display:inline-block;
-    text-align:center;
-    cursor:pointer;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
     font-size: 18px;
     margin: 0;
 }
@@ -912,6 +961,19 @@ fieldset {
     padding: 10px;
     margin-bottom: 10px;
 }
+
+body.kc #wl {
+    display: block !important;
+}
+
+sidepanel .kc {
+    display: none;
+}
+
+body.kc sidepanel .kc {
+    display: block;
+}
+
 fieldset h2 {
     margin-top: 0;
     color: white;
@@ -920,7 +982,7 @@ fieldset h2 {
     color: white;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
-input[type=text], input[type=url], input[type=password], input[type=number], option, select {
+input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
     border: 1px solid #333;
     background-color: rgba(0, 0, 0, 0.2);
     font-size: 25px;
@@ -1194,21 +1256,7 @@ td.day {
     height: 21px;
 }
 
-[date-picker] div.tooltip.bottom {
-    width: 500px !important;
-    overflow:visible;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-radius: 10px;
-    padding: 10px;
-}
-[date-picker] div.tooltip h2 {
-    width: 480px;
-    font-size: 14px;
-    color:white;
-}
-[date-picker] div.tooltip p {
-    width:450px;
-}
+
 [date-picker] calendar-event:first-of-type {
     margin-top: 4px;
     display:block;
@@ -1217,6 +1265,38 @@ td.day {
     margin-bottom: 4px;
     display:block;
 }
+
+[date-picker] a.markdaywatched {
+    font-size: 12px;
+    position: absolute;
+    bottom: -18px;
+    left: 0px;
+    margin-top: 0px;
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    padding: 0px;
+    height: 20px;
+    line-height: 19px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(25, 25, 25, 0.9);
+}
+[date-picker] a.markdaywatched:hover {
+    background-color: rgba(45, 45, 45, 0.9);
+    text-decoration: underline;
+}
+
+[date-picker] a.markdaywatched i {
+    top: 2px;
+    margin-right: 7px;
+}
+[date-picker] a.markdaywatched span {
+    cursor: pointer;
+}
+
 clicktrap {
     position:fixed; 
     top:0px; 
@@ -1224,27 +1304,6 @@ clicktrap {
     right:0px;
     bottom:0px; 
     z-index:100
-}
-ul.engineselect {
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
-    text-align: center;
-}
-ul.engineselect li {
-    font-family:'bebasbold';
-    font-size: 20px;
-}
-ul.engineselect li strong {
-    cursor: pointer;
-    font-size: 20px;
-}
-ul.engineselect li i {
-    font-size: 18px;
-}
-ul.engineselect li:hover strong {
-    cursor: pointer;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
-    text-decoration: underline;
 }
 
 a.hover i.glyphicon-plus-sign {
@@ -1312,7 +1371,6 @@ calendar-event .progress {
     margin: 0px;
 }
 
-
 calendar-event .progress-bar {
     color: black;
     line-height:16px;
@@ -1323,7 +1381,6 @@ calendar-event .progress-bar {
     left: 0px;
     bottom: 0px;
     z-index: -1;
-
 }
 
 .glyphicon.glyphicon-win-close {
@@ -1400,7 +1457,7 @@ query-monitor.show {
 }
 
 .img-loading {
-    opacity: 0.99 !important;
+    opacity: 0.6;
     background: url('../img/spinner.gif'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
     background-size: auto !important;
     background-repeat: no-repeat;
@@ -1408,7 +1465,7 @@ query-monitor.show {
 }
 
 .img-load-error {
-    opacity: 0.99 !important;
+    opacity: 0.8;
     background: url('../img/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
     background-size: contain !important;
     border: 5px solid rgb(15,15,15);
@@ -1480,6 +1537,21 @@ sidepanel .buttons a {
     -webkit-user-select: none;
 }
 
+sidepanel .buttons a.btn:hover {
+    color: white;
+}
+
+sidepanel .buttons.languages a {
+    text-align: left;
+    padding: 3px;
+    padding-left: 15px;
+}
+
+sidepanel .buttons.languages a i {
+    margin-left: 5px;
+    margin-right: 15px;
+}
+
 sidepanel .buttons a.subtitle-dialog {
     display: inline-block;
     float: right;
@@ -1531,6 +1603,7 @@ sidepanel .leftpanel {
     height: 100%;
     padding: 15px;
     overflow-y: auto;
+    overflow-x:hidden;
 }
 sidepanel .rightpanel {
     position: absolute;
@@ -1543,6 +1616,7 @@ sidepanel .rightpanel {
     background-color: rgba(23, 23, 23,0.7);
     z-index: 0;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 sidepanel .rightpanel h2 {
@@ -1592,29 +1666,21 @@ sidepanel  i.glyphicon.glyphicon-eye-open {
 sidepanel  i.glyphicon.glyphicon-floppy-saved {
     color: green !important;
 }
-sidepanel  .buttons .two-face-torrent .download {
-    float: left;
+sidepanel .buttons .two-face-torrent .download {
     padding-right: 0;
-    margin-right: 0;
     border-right: 0px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    width: 287px;
+    margin: 0;
 }
 sidepanel .buttons .two-face-torrent .auto-download {
-    padding: 15px 10px;
-    margin: 5px 0;
+    margin: 0px;
     border-left: 0px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    height: 57px;
-    position: absolute;
-    right: 20px;
+    text-decoration: none;
 }
-/* Fix the tooltip positions */
-#ttd .tooltip {
-    left: 106.5px !important;
-}
+
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
@@ -1629,19 +1695,40 @@ sidepanel .buttons .torrent-mini-remote-control a {
     margin: 0 1px;
     padding: 5px;
 }
-sidepanel  .buttons .torrent-mini-remote-control a i.glyphicon {
+sidepanel .buttons .torrent-mini-remote-control a i.glyphicon {
     font-size: 18px;
     margin-right: 2px;
 }
-sidepanel  .buttons .torrent-mini-remote-control-progress {
+sidepanel .buttons .torrent-mini-remote-control-progress {
     margin-bottom: 0px;
     background-color: rgba(210,210,210,0.4);
 }
-sidepanel  .buttons .torrent-mini-remote-control-progress > span {
+sidepanel .buttons .torrent-mini-remote-control-progress > span {
     /* Somehow positions it in the center dont even know */
     position: absolute;
     left: 0px;
     width: 100%;
+}
+
+sidepanel .serie-overview .mark-button .left-glyph {
+    width: 22px;
+    padding-right: 6px;
+}
+sidepanel .serie-overview .mark-button .left-glyph i {
+    top: 0px;
+}
+sidepanel .serie-overview .mark-button .right-text-glyph {
+    width: 100%;
+    text-align: center
+}
+sidepanel .serie-overview .mark-button .right-text-glyph span {
+    cursor: pointer;
+}
+sidepanel .serie-overview .mark-button .right-text-glyph i {
+    float: initial;
+    font-size: 14px;
+    color: white !important;
+    left: -1px;
 }
 
 sidepanel h1 {
@@ -1668,16 +1755,15 @@ sidepanel .expanded .serie-bg-img {
 }
 sidepanel  .serie-img {
     margin: 5px auto;
-    height: 275px;
-    width: 195px;
-    background-size: contain;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
+    position: relative;
 }
 sidepanel .serie-img .badge {
-    position: relative;
+    position: absolute;
     top: 2px;
-    right: -6px;
+    right: 2px;
     border-radius: 6px;
     z-index: 1;
     background-color: rgb(68,68,68);
@@ -1731,50 +1817,115 @@ sidepanel .seasons serieheader {
     display: none;
 }
 
-sidepanel .torrents .torrent .progress, sidepanel .torrent-mini-remote-control-progress.progress {
+.torrent-mini-remote-control a span {
+    cursor: pointer;
+}
+
+.torrent-mini-remote-control .torrent-file {
+    padding: 2px;
+    margin: 0;
+    font-size: 12px;
     position: relative;
-    margin-top: 0px;
-    height: 4px;
-    margin-bottom: -5px;
 }
-sidepanel .torrents .torrent .buttons .torrent-mini-remote-control {
-    border: 1px solid white;
-    border-radius: 10px;
-    padding: 20px;
+.torrent-mini-remote-control .torrent-file:hover {
+    background-color: rgba(66,66,66,0.3)
 }
-sidepanel .leftpanel.torrents {
+.torrent-mini-remote-control .torrent-file:first-of-type {
+    margin-top: 6px;
+}
+.torrent-mini-remote-control .torrent-file .subtitle-dialog {
+    position: absolute;
+    top: 14px;
+    right: -32px;
+    padding: 4px;
+}
+.torrent-mini-remote-control loading-spinner {
+    margin-top: 5px;
+}
+
+.leftpanel.torrent-client {
     color: #E0E0E0;
     padding: 0;
 }
 
-.torrents .torrent {
+.torrent-client .settingsbtn {
+    text-align: right;
+    padding: 2px 10px;
+}
+.torrent-client .settingsbtn span {
+    cursor: pointer;
+}
+
+.torrent-client .progress, sidepanel .torrent-mini-remote-control-progress.progress {
+    position: relative;
+    margin-top: 0px;
+    height: 4px;
+    margin-bottom: -5px;
+    transition: height .3s ease-in-out;
+}
+.torrent-client .progress.progress-big {
+    height: 19px;
+}
+
+.torrent-client .buttons .torrent-mini-remote-control {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.torrent-client .torrent a {
+    position: relative;
+  display: block;
+  padding: 8px;
+}
+
+.torrent-client .torrent-details a.subtitle-dialog {
+  display: block;
+  border-radius: 5px !important;
+  clear: both;
+  margin-left: 0;
+  font-family: arial;
+  float: none;
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+.torrent-client .torrent {
     background-color: rgba(55,55,55,0);
 }
-.torrents .torrent:hover {
+.torrent-client .torrent:hover {
     background-color: rgba(55,55,55,0.4);
     color: white;
 }
-.torrents .torrent div.buttons {
+.torrent-client .torrent .buttons {
     padding: 20px;
     margin-top: 15px;
     position: relative;
 }
-.torrents .torrent strong {
+.torrent-client .torrent strong {
     text-align: left;
     display: block;
     font-size: 14px;
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
     font-family: helvetica;
     font-weight: normal;
     word-wrap: break-word;
 }
-.torrents .torrent .label {
-    top: 4px;
+.torrent-client .torrent .label {
+    top: 5px;
     right: 30px;
     position: absolute;
     background-color: #505050;
     display: inline-block;
+}
+
+.torrent-client h2 {
+    word-break: break-all;
+}
+
+.progress-bar-success.downloaded {
+    width: 100%;
 }
 
 .settings h2 {
@@ -1910,9 +2061,68 @@ sidepanel .leftpanel.torrents {
   z-index: 100;
   padding-left: 20%;
 }
-
 .ui-loading:before {
     -webkit-transform: translateY(0px);
+}
+
+/**
+ * Dial Gauges used on torrent client
+ */
+.dg {
+    display: block;
+    width: 100%;
+    height: 125px;
+    overflow: hidden;
+}
+.dialgauge-value {
+    font-size: 22px;
+    font-weight: 200;
+}
+.dialgauge-unit {
+    font-size: 12px;
+    stroke: green;
+    fill: pink;
+    font-weight: 100;
+}
+.dialgauge-title {
+    font-size: 12px;
+    stroke: green;
+    fill: pink;
+    font-weight: 100;
+}
+.dg1 {
+    display: inline-block;
+    width: 140px;
+}
+.dg1 .dialgauge-value {
+    font-size: 30px;
+    font-weight: 400;
+    stroke: grey;
+    fill: grey;
+}
+ng-dial-gauge {
+  height: 200px !important;
+  width: 49%;
+  display: inline-block;
+}
+
+/**
+ * Resolution Specific Touchups
+ */
+@media (max-width: 1080px) {
+    serieheader[mode=banner] {
+        width: 100%;
+    }
+}
+@media (max-width: 1366px) {
+    series-list > div.sidepanelActive serieheader[mode=banner] {
+        width: 100%;
+    }
+}
+@media (max-width: 1560px) {
+    series-list > div.sidepanelExpanded serieheader[mode=banner] {
+        width: 100%;
+    }
 }
 
 @media (max-height: 768px) {

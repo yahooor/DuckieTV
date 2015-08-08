@@ -29,7 +29,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         permissions: [permission]
                     }, function(supported) {
                         console.info(supported ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
-                        (supported && 'sync' in chrome.storage) ? resolve() : reject();
+                        return (supported && 'sync' in chrome.storage) ? resolve() : reject();
                     });
                 });
             },
@@ -45,7 +45,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         permissions: [permission]
                     }, function(granted) {
                         console.info(granted ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
-                        (granted) ? resolve() : reject();
+                        return (granted) ? resolve() : reject();
                     });
                 });
             },
@@ -61,7 +61,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         permissions: [permission]
                     }, function(result) {
                         console.info(result ? 'Permission ' + permission + ' revoked.' : 'Permission ' + permission + ' not revoked.');
-                        (result) ? resolve() : reject();
+                        return (result) ? resolve() : reject();
                     });
                 });
             }
@@ -77,8 +77,8 @@ DuckieTV.factory('ChromePermissions', ["$q",
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-.factory('SettingsService', ["$injector", "$rootScope", "ChromePermissions",
-    function($injector, $rootScope, ChromePermissions) {
+.factory('SettingsService', ["$injector", "$rootScope", "ChromePermissions", "availableLanguageKeys", "customLanguageKeyMappings",
+    function($injector, $rootScope, ChromePermissions, availableLanguageKeys, customLanguageKeyMappings) {
         var service = {
             settings: {},
             defaults: {
@@ -97,6 +97,8 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'download.ratings': true,
                 'lastSync': -1,
                 'library.smallposters': true,
+                'library.seriesgrid': true,
+                'kc.always': false,
                 'qbittorrent.server': 'http://localhost',
                 'qbittorrent.port': 8080,
                 'qbittorrent.use_auth': true,
@@ -108,7 +110,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'qbittorrent32plus.username': 'admin',
                 'qbittorrent32plus.password': 'admin',
                 'series.displaymode': 'poster',
-                'standalone.zoomlevel': 6,
+                'standalone.startupMinimized': false,
                 'storage.sync': false, // off by default so that permissions must be requested
                 'sync.progress': true,
                 'tixati.server': 'http://localhost',
@@ -195,29 +197,34 @@ DuckieTV.factory('ChromePermissions', ["$q",
             /*
              * Change the UI language and locale to use for translations tmhDynamicLocale
              */
-            changeLanguage: function(langKey) {
+            changeLanguage: function(langKey, locale) {
+                console.warn("SettingsService.changeLanguage", langKey, locale);
                 langKey = angular.lowercase(langKey) || 'en_us';
                 var locale = langKey;
-                // special variants
-                switch (langKey) {
-                    case 'en_au':
-                    case 'en_ca':
-                    case 'en_gb':
-                    case 'en_nz':
-                        langKey = 'en_uk';
-                        break;
-                    case 'fr_ca':
-                        langKey = 'fr_fr';
-                        break;
-                    case 'pt_br':
-                        langKey = 'pt_pt';
-                        break;
+
+                if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1 && customLanguageKeyMappings.indexOf(langKey) === -1) {
+                var matched = false;
+
+                    if (langKey.indexOf('_') === -1) {
+                        for (var key in customLanguageKeyMappings) {
+                            console.debug(key, langKey, key.indexOf(langKey));
+                            if (key.indexOf(langKey) > -1) {
+                                langKey = key;
+                                matched = true;
+                                break;
+                            }
+                        }
+                    }
+                if (!matched) {
+                    langKey = locale = 'en_us';
                 }
+            }
+
                 service.set('application.language', langKey);
                 service.set('application.locale', locale);
                 $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
-                $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
-                //console.info("Active Language", langKey, "; Active Locale", locale);
+                $injector.get('$translate').use(langKey, locale); // get these via the injector so that we don't have to use these dependencies hardcoded.
+                return langKey;
             }
         };
         service.restore();

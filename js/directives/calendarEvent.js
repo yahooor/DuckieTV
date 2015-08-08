@@ -1,8 +1,8 @@
 /**
  * The <calendar-event> directive displays an episode on the calendar
  */
-DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService",
-    function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService, $location) {
+DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "AutoDownloadService", "SettingsService",
+    function(uTorrent, SceneNameResolver, AutoDownloadService, SettingsService, $location) {
         return {
             restrict: 'E',
             scope: {
@@ -31,7 +31,7 @@ DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAi
                         $scope.hoverTimer = setTimeout(function() {
                             $scope.$root.$broadcast('background:load', background);
                         }.bind(this), 1500);
-                    };
+                    }
                 };
 
                 $scope.clearHoverTimer = function() {
@@ -44,13 +44,13 @@ DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAi
 
                 $scope.selectEpisode = function(serie, episode) {
                     $location.path('/serie/' + serie.TVDB_ID + '/season/' + episode.seasonnumber + '?episode=' + episode.TVDB_ID);
-                }
+                };
 
                 $scope.expand = function() {
-                    $scope.$emit('expand:serie', $scope.episode.firstaired, $scope.serie.ID_Serie)
-                }
+                    $scope.$emit('expand:serie', $scope.episode.firstaired, $scope.serie.ID_Serie);
+                };
 
             }
         };
     }
-])
+]);

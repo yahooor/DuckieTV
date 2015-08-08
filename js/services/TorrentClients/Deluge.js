@@ -1,5 +1,10 @@
 /**
- * Deluge
+ * Deluge web client implementation
+ *
+ * API Docs:
+ * http://deluge-webapi.readthedocs.org/en/latest/quickstart.html#api-methods
+ *
+ * - Supports setting download directory
  */
 DelugeData = function(data) {
     this.update(data);
@@ -76,7 +81,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 var self = this;
                 return this.rpc("auth.check_session").then(function(result) {
                     return result !== undefined ? self.rpc("auth.login", [self.config.password]).then(function(response) {
-                        console.log("Auth result: ", response.result);
+                        //console.debug("Auth result: ", response.result);
                         return response.result;
                     }) : false;
                 }, function() {
@@ -190,8 +195,10 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
     }
 ])
 
-.run(["DuckieTorrent", "Deluge",
-    function(DuckieTorrent, Deluge) {
-        DuckieTorrent.register('Deluge', Deluge);
+.run(["DuckieTorrent", "Deluge", "SettingsService",
+    function(DuckieTorrent, Deluge, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('Deluge', Deluge);
+        }
     }
 ]);

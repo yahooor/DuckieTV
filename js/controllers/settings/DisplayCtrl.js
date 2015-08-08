@@ -11,6 +11,9 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.topSitesMode = SettingsService.get('topSites.mode');
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
         $scope.showRatings = SettingsService.get('download.ratings');
+        $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
+        $scope.standaloneStartupMinimized = localStorage.getItem('standalone.startupMinimized');
+        $scope.sgEnabled = SettingsService.get('library.seriesgrid');
 
         $scope.toggleTopSites = function() {
             $scope.topSites = !$scope.topSites;
@@ -34,44 +37,18 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
             SettingsService.set('download.ratings', $scope.showRatings);
         };
 
-    }
-])
-
-/*
- * Controller for the language settings tab
- */
-DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
-    function($scope, $filter, SettingsService) {
-        $scope.activeLocale = SettingsService.get('application.locale');
-
-        // Set up the language list used in settings/display template
-        $scope.languageList = {
-            'en_au': 'au',
-            'en_ca': 'ca',
-            'en_nz': 'nz',
-            'en_uk': 'uk',
-            'en_us': 'us',
-            'de_de': 'de_de',
-            'es_es': 'es_es',
-            'fr_ca': 'fr_ca',
-            'fr_fr': 'fr_fr',
-            'it_it': 'it_it',
-            'ja_jp': 'ja_jp',
-            'ko_kr': 'ko_kr',
-            'nl_nl': 'nl_nl',
-            'pt_br': 'pt_br',
-            'pt_pt': 'pt_pt',
-            'ru_ru': 'ru_ru',
-            'sl_si': 'sl_si',
-            'sv_se': 'sv_se',
-            'zh_cn': 'zh_cn'
+        // Toggles whether to minimize the Standalone window at startup 
+        // stored in localStorage because this code runs early
+        $scope.toggleStandaloneStartupMinimized = function() {
+            $scope.standaloneStartupMinimized = !$scope.standaloneStartupMinimized;
+            localStorage.setItem('standalone.startupMinimized', $scope.standaloneStartupMinimized);
         };
 
-        // Change localization an translations, reloads translation table.
-        $scope.setLocale = function(lang) {
-            SettingsService.changeLanguage(lang);
-            $scope.activeLocale = lang;
+        // Toggles the Series-Grid on Series-List
+        $scope.toggleSeriesGrid = function() {
+            $scope.sgEnabled = !$scope.sgEnabled;
+            SettingsService.set('library.seriesgrid', $scope.sgEnabled);
             window.location.reload();
         };
     }
-])
+]);

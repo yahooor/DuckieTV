@@ -12,27 +12,27 @@ DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "$filter",
             key: "server",
             type: "input",
             templateOptions: {
-                label: "Tixati " + $filter('translate')('TIXATIjs/address/lbl'),
+                label: "Tixati " + $filter('translate')('COMMON/address/lbl'),
                 type: "url",
             }
         }, {
             key: "port",
             type: "input",
             templateOptions: {
-                label: $filter('translate')('TIXATIjs/port/lbl'),
+                label: $filter('translate')('COMMON/port/lbl'),
                 type: "number",
             }
         }, {
             key: "username",
             type: "input",
             templateOptions: {
-                label: $filter('translate')('TIXATIjs/username/lbl')
+                label: $filter('translate')('COMMON/username/lbl')
             }
         }, {
             key: "password",
             type: "input",
             templateOptions: {
-                label: $filter('translate')('TIXATIjs/password/lbl'),
+                label: $filter('translate')('COMMON/password/lbl'),
                 type: "password"
             }
         }, ];
@@ -49,6 +49,7 @@ DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "$filter",
             Tixati.connect().then(function(connected) {
                 console.info("Tixati connected! (save settings)", connected);
                 Tixati.saveConfig();
+                window.location.reload();
             }, function(error) {
                 console.error("Tixati connect error!", error);
             });

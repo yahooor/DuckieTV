@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, $scope, $filter) {
+DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter) {
 
     this.serie = serie;
     this.episode = episode;
@@ -7,14 +7,22 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
 
     this.autoDownload = function() {
-        EpisodeAiredService.autoDownload(this.serie, this.episode);
+        AutoDownloadService.autoDownload(this.serie, this.episode);
+    };
+
+    this.torrentSettings = function() {
+        dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
+            serie: self.serie
+        }, {
+            bindToController: true,
+            size: 'xs'
+        });
     };
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        return SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
     };
-
 
     this.isTorrentClientConnected = function() {
         return DuckieTorrent.getClient().getRemote().isConnected();
@@ -22,7 +30,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
     this.isNetflixSupported = function() {
         return navigator.userAgent.toLowerCase().indexOf('standalone') === -1;
-    }
+    };
 
     this.isNetflixSerie = function() {
         if (!this.serie.network) return false;
@@ -43,14 +51,14 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
                             window.open(result);
                         }
                     });
-                })
+                });
             }
         });
-    }
+    };
 
     this.findSubtitle = function() {
         SubtitleDialog.searchEpisode(this.serie, this.episode);
-    }
+    };
 
     /*
      * This watches for the magnet:select event that will be fired by the
@@ -60,4 +68,4 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         this.magnetHash = magnet;
         this.Persist();
     }.bind(this.episode));
-})
+});

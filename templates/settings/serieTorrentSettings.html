@@ -1,0 +1,6 @@
+<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
+<h1>{{ model.name }} Torrent Settings</h1>
+
+<form ng-submit="save()" novalidate id="serieTorrentSettingsForm">
+	<formly-form model="model" fields="fields"></formly-form>
+</form>

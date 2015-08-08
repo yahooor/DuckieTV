@@ -1,6 +1,6 @@
 DuckieTV
 
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService",  "TorrentHashListService",
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
     function($scope, $rootScope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
         //-- Variables --//
 
@@ -87,7 +87,8 @@ DuckieTV
             };
 
         $scope.select = function(result) {
-            if (TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.noMagnet) {
+            var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
+            if (config && 'noMagnet' in config && config.noMagnet) {
                 return urlSelect(result.torrentUrl, result.releasename);
             } else {
                 return magnetSelect(result.magneturl);
@@ -133,17 +134,20 @@ DuckieTV
 
 .run(["TorrentSearchEngines", "SettingsService",
     function(TorrentSearchEngines, SettingsService) {
-        // delay for 500ms so that custom clients can register themselves before determining default enigne. 
-        setTimeout(function() {
+        if (SettingsService.get('torrenting.enabled')) {
 
-            var providers = TorrentSearchEngines.getSearchEngines();
-            if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
-                // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
-                console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
-                SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
-            }
-            TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
+            // delay for 500ms so that custom clients can register themselves before determining default enigne. 
+            setTimeout(function() {
 
-        }, 500);
+                var providers = TorrentSearchEngines.getSearchEngines();
+                if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
+                    // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
+                    console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
+                    SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
+                }
+                TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
+
+            }, 500);
+        }
     }
 ]);

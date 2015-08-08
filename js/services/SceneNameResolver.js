@@ -36,6 +36,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "72194": "The Ellen Degeneres Show",
         "72224": "The Outer Limits",
         "72231": "Real Time with Bill Maher",
+        "72289": "2020 US",
         "72301": "Penn and Teller Bullshit",
         "72306": "The Venture Brothers",
         "72449": "Stargate SG1",
@@ -138,10 +139,12 @@ DuckieTV.provider('SceneNameResolver', function() {
         "81670": "The Murdoch Mysteries",
         "82060": "Who Do You Think You Are AU",
         "82135": "The Gruen Transfer",
+        "82166": "Food Network Star",
         "82186": "The Comedy Central Roast of",
         "82374": "Ultimate Factories",
         "82448": "Project Runway Australia",
         "82467": "Eastbound Down",
+        "82548": "Would I Lie to You",
         "82918": "Diners, Drive-ins and Dives",
         "83115": "The Worlds Strictest Parents UK",
         "83123": "Merlin 2008",
@@ -292,6 +295,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "257550": "Bellator FC",
         "257645": "Ultimate Spider-man",
         "257804": "Too Cute",
+        "258310": "Comedy Bang Bang",
         "258773": "Zero Hour US",
         "259047": "VGHS",
         "259055": "Nashville 2012",
@@ -410,8 +414,10 @@ DuckieTV.provider('SceneNameResolver', function() {
         "281485": "Marvels Agent Carter",
         "281511": "Blackish",
         "281535": "Forever US",
+        "281537": "Aquarius US",
         "281624": "Manhattan Love Story US",
         "281664": "Partners 2014",
+        "281708": "Proof US",
         "281709": "The Librarians US",
         "281776": "Youre the Worst",
         "282654": "Utopia US",
@@ -431,7 +437,8 @@ DuckieTV.provider('SceneNameResolver', function() {
         "290865": "Salem Rogers Model Of The Year 1998",
         "292044": "Critical UK",
         "292421": "James Corden",
-        "292782": "Nurse UK"
+        "292782": "Nurse UK",
+        "295988": "Why with Hannibal Buress"
     };
 
     var episodesWithDateFormat = {
@@ -440,6 +447,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         71998: "YYYY.MM.DD", // Jimmy Kimmel Live: 2014.11.13
         72194: "YYYY.MM.DD", // The Ellen DeGeneres Show: 2014.11.13 
         72231: "YYYY MM DD", // Real Time With Bill Maher
+        72289: "YYYY MM DD", // 2020 US 2015 06 05
         75332: "DD MMM YY", // General Hospital : 20 Nov 14
         77075: "YYYY-MM-DD", // Jeopardy! 2014-05-27
         79274: "YYYY.MM.DD", // The Colbert Report: 2014.11.13 

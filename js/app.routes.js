@@ -39,27 +39,19 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         }
 
         function findEpisodes($stateParams) {
-            return CRUD.Find('Episode', {
-                ID_Season: $stateParams.season_id
-            });
+            return Episode.findByID_Season($stateParams.season_id);
         }
 
         function findEpisode($stateParams) {
-            return CRUD.FindOne('Episode', {
-                ID_Episode: $stateParams.episode_id
-            });
+            return Episode.findByID($stateParams.episode_id);
         }
 
         function findSeasonByID($stateParams) {
-            return CRUD.FindOne('Season', {
-                ID_Season: $stateParams.season_id
-            });
+            return Season.findByID($stateParams.season_id);
         }
 
         function findSerieByID($stateParams) {
-            return CRUD.FindOne('Serie', {
-                ID_Serie: $stateParams.id
-            });
+            return Serie.findByID($stateParams.id);
         }
 
         // if the path doesn't match any of the urls you configured
@@ -164,6 +156,27 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controllerAs: 'traktSearch'
                 }
             }
+
+        })
+
+        .state('favorites.add.search.trakt-serie', {
+            url: '/:id',
+            params: {
+                serie: {}
+            },
+            resolve: {
+                SidePanelState: showSidePanel,
+                serie: function($stateParams) {
+                    return $stateParams.serie;
+                }
+            },
+            views: {
+                'sidePanel@': {
+                    templateUrl: 'templates/sidepanel/trakt-serie-details.html',
+                    controller: 'sidepanelTraktSerieCtrl',
+                    controllerAs: 'sidepanel'
+                }
+            }
         })
 
         .state('favorites.add.trakt-serie', {
@@ -182,7 +195,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 }
             }
         })
-
 
         .state('watchlist', {
             url: '/watchlist',
@@ -208,17 +220,13 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             resolve: {
                 SidePanelState: showSidePanel,
                 serie: function($stateParams) {
-                    return CRUD.FindOne('Serie', {
-                        Episode: {
-                            ID_Episode: $stateParams.episode_id
-                        }
+                    return Serie.findOneByEpisode({
+                        ID_Episode: $stateParams.episode_id
                     });
                 },
                 season: function($stateParams) {
-                    return CRUD.FindOne('Serie', {
-                        Episode: {
-                            ID_Episode: $stateParams.episode_id
-                        }
+                    return Serie.findOneByEpisode({
+                        ID_Episode: $stateParams.episode_id
                     }).then(function(result) {
                         return result.getActiveSeason();
                     });
@@ -241,9 +249,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 SidePanelState: showSidePanel,
                 serie: findSerieByID,
                 latestSeason: function($stateParams) {
-                    return CRUD.FindOne('Serie', {
-                        ID_Serie: $stateParams.id
-                    }).then(function(result) {
+                    return Serie.findByID($stateParams.id).then(function(result) {
                         return result.getActiveSeason();
                     });
                 },
@@ -275,10 +281,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             resolve: {
                 SidePanelState: expandSidePanel,
                 seasons: function($stateParams) {
-                    return CRUD.Find('Season', {
-                        Serie: {
-                            ID_Serie: $stateParams.id
-                        }
+                    return Season.findBySerie({
+                        ID_Serie: $stateParams.id
                     });
                 }
             },
@@ -368,7 +372,32 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 sidePanel: {
                     templateUrl: 'templates/torrentClient.html',
                     controller: 'TorrentCtrl',
-                    controllerAs: 'torrent'
+                    controllerAs: 'client'
+                }
+            }
+        })
+
+        .state('torrent.details', {
+            url: '/:id',
+            params: {
+                torrent: {}
+            },
+            resolve: {
+                SidePanelState: expandSidePanel,
+                torrent: function($stateParams, SidePanelState) {
+                    if (!('getName' in $stateParams.torrent)) {
+                        setTimeout(SidePanelState.show, 500); // contract sidepanel on page refresh, and not torrent
+                    }
+                    return $stateParams.torrent;
+                }
+            },
+            views: {
+                torrentDetails: {
+                    templateUrl: function($stateParams) {
+                        return 'templates/torrentClient.details.html';
+                    },
+                    controller: 'TorrentDetailsCtrl',
+                    controllerAs: 'vm'
                 }
             }
         })

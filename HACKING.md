@@ -21,3 +21,20 @@ If you want to run and hack on DuckieTV standalone yourself, the process is real
 - Extract all files to the DuckieTV repository
 - run nw.exe or ./nw
 - Now you can just work in the directory and pull repo updates with git if you want to run the latest version always
+
+
+sudo add-apt-repository ppa:ubuntu-wine/ppa
+sudo apt-get update
+sudo apt-get install wine1.7 
+git clone https://github.com/hogliux/bomutils && cd bomutils && make && sudo make install
+sudo apt-get install libxml2-dev libssl-dev
+sudo apt-get install nsis
+
+to build individual releases:
+cd build/
+./build_windows.sh
+./build_mac.sh
+./build_linux.sh
+
+to build the whole shebang: 
+gulp deploy

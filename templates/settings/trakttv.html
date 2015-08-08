@@ -1,9 +1,10 @@
 <h2>Trakt.TV <h2cont translate-once="SETTINGS/TRAKTTV/sync/hdr"></h2cont>
-  <span ng-show="getSetting('trakttv.sync')" tooltip="{{'SETTINGS/TRAKTTV/sync-enabled/tooltip'|translate}}">
+  <span ng-show="getSetting('trakttv.sync')" tooltip="{{'COMMON/enabled/lbl'|translate}}">
   	<i class="glyphicon glyphicon-ok alert-success" style="font-size:22px"></i>
   </span>
-  <span ng-show="!getSetting('trakttv.sync')" tooltip="{{'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}">
+  <span ng-show="!getSetting('trakttv.sync')" tooltip="{{'COMMON/disabled/lbl'|translate}}">
   	<i class="glyphicon glyphicon-remove alert-danger" style="font-size:22px"></i>
   </span>
 </h2>
+     
 <div ng-include="'templates/settings/trakt-import.html'"></div>

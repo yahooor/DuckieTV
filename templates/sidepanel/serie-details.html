@@ -1,5 +1,5 @@
 <div class="serie-overview" style="color:black">
-    <div class="serie-img" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-placement="left">
+    <div class="serie-img poster large" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-append-to-body="true" tooltip-placement="left">
       <em ng-show="sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
         <i class="glyphicon glyphicon-eye-open" style="color:white !important"></i>
       </em>
@@ -61,6 +61,18 @@
             </ul>
           </td>
         </tr>
+        <tr style='border-top: 1px solid white'>
+        <th colspan="2" style="text-align: center"><h3 style="margin:10px 0 10px 0" translate-once="SIDEPANEL/SERIE-DETAILS/it-would-take/hdr"></h3>
+          <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalRunTime">{{sidepanel.totalRunLbl}}</h1>
+
+          <div style="position:relative" ng-show="!sidepanel.totalRunTime">
+            <h3 style="margin:5px 0 5px 0"><h3cont translate-once="SIDEPANEL/SERIE-DETAILS/calculating/hdr"></h3cont>
+              <loading-spinner class="small" style="margin:-2px 0 0 5px;position:absolute"></loading-spinner>
+            </h3>
+          </div>
+          <h3 style='text-align:center;margin:10px 0 10px 0'><h3cont translate-once="SIDEPANEL/SERIE-DETAILS/to-binge-watch/hdr"></h3cont>{{::sidepanel.serie.name}}</h3>
+          </th>
+          </tr>
       </tbody>
     </table>
 </div>  

@@ -81,19 +81,10 @@ TorrentData.prototype.isStarted = function() {
     throw "function not implemented";
 };
 
-
-/**
- * Client implementations
+/** 
+ * Get torrent speed in kb/s
  */
-
-
-
-
-/**
- * Vuze - Exact same api as Transmission.
- *
-var VuzeData = function(data) {
-    this.update(data);
+TorrentData.prototype.getTransferSpeed = function() {
+    return 0;
+    //throw "function not implemented";
 };
-
-VuzeData.extends(TransmissionData); */

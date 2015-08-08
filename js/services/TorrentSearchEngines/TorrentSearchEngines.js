@@ -4,7 +4,7 @@
  *
  * All an engine needs to provide is a .search method. It can be both an angular factory or a plain old javascript instantiated function
  * The TorrentDialog directive lists these search engines and can switch between them.
- * The EpisodeAiredService uses the default engine to look for torrents on aired episodes.
+ * The AutoDownloadService uses the default engine to look for torrents on aired episodes.
  *
  * There is a GenericTorrentSearchEngine.js in this folder that can scrape a lot of torrent sites by just passing in some endpoints and css selectors.
  * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
@@ -16,12 +16,10 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
         var engines = {};
         var defaultEngine = 'ThePirateBay';
 
-
-
         var service = {
 
             registerSearchEngine: function(name, implementation) {
-                console.info("Registering torrent search engine:", name);
+                name in engines ? console.info("Updating torrent search engine", name) : console.info("Registering torrent search engine:", name);
                 engines[name] = implementation;
             },
 
@@ -44,6 +42,25 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             setDefault: function(name) {
                 if (name in engines) {
                     defaultEngine = name;
+                }
+            },
+
+            removeSearchEngine: function(name) {
+                if (name in engines) {
+                    delete engines[name];
+                    //SettingsService....
+                }
+            },
+
+            disableSearchEngine: function(name) {
+                if (name in engines) {
+                    //SettingsService....
+                }
+            },
+
+            enableSearchEngine: function(name) {
+                if (name in engines) {
+                    //SettingsService....
                 }
             },
 

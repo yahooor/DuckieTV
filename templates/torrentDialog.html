@@ -4,7 +4,7 @@
 <a href="#settings/torrent-search" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="TORRENTDIALOG/settings/glyph"></span></a>
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="TORRENTDIALOG/placeholder">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
-<div class="btn-group" style='margin:0 auto; padding:10px;'>
+<div class="btn-group" style='padding:5px 5px 5px 0;vertical-align:initial'>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '480p'}" ng-click="setQuality('480p')">480p</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == 'HDTV'}" ng-click="setQuality('HDTV')">HDTV</button>
@@ -12,8 +12,8 @@
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '1080p'}" ng-click="setQuality('1080p')">1080p</button>
 </div>
 
-<div class="btn-group">
- <button ng-repeat="name in clients |orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
+<div class="btn-group" style="padding:0px 5px 5px 0;vertical-align:initial">
+ <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
 
 <table class="torrents table table-condensed white">
@@ -53,34 +53,43 @@
         <strong translate-once="TORRENTDIALOG/name/lbl"></strong>
       </th>
       <th>
+        <strong translate-once="TORRENTDIALOG/size/lbl"></strong>
+      </th>
+      <th>
         <strong translate-once="TORRENTDIALOG/seed/lbl"></strong>
       </th>
       <th>
         <strong translate-once="TORRENTDIALOG/leech/lbl"></strong>
       </th>
+
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20">
-      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
+      <td style='width:80px; padding:5px; vertical-align: top;'>
         <a ng-click="select(seed)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
         </a>
-        <a class="dropdown-toggle" dropdown-toggle>
-          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
+        <a ng-href="{{::seed.torrent}}">
+          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/download-torrent/lbl'|translate}}"></i>
         </a>
-        <ul class="dropdown-menu">
-          <li><a ng-href="{{::seed.torrent}}"><i class="glyphicon glyphicon-download"></i><span translate-once="TORRENTDIALOG/download-torrent/lbl"></span></a></li>
-          <li><a ng-href="{{::seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i><span translate-once="TORRENTDIALOG/magnet/link/lbl"></span></a></li>
-          <li><a ng-href="{{::seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i><span translate-once="TORRENTDIALOG/torrent-details/lbl"></span></a></li>
-        </ul>
+
+        <a ng-href="{{::seed.magneturl}}">
+          <i class="glyphicon glyphicon-link" tooltip="{{'TORRENTDIALOG/magnet/link/lbl'|translate}}"></i>
+        </a>
+        <a ng-href="{{::seed.detailUrl}}" target='_blank'>
+          <i class="glyphicon glyphicon-info-sign" tooltip="{{'TORRENTDIALOG/torrent-details/lbl'|translate}}"></i>
+        </a>
       </td>
       <td>
-        <a tooltip="Size: {{::seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="select(seed)"></a>
+        <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
+      </td>
+      <td>
+        <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.seeders" ng-click="select(seed)"></a>
+        <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.leechers" ng-click="select(seed)"></a>
+        <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
       </td>
     </tr>
   </tbody>

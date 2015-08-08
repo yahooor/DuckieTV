@@ -32,7 +32,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                         size: Math.round(((hit.size / 1024 / 1024) + 0.00001) * 100) / 100 + " MB",
                         seeders: hit.seeders,
                         leechers: hit.leechers,
-                        detailUrl: hit.info_pagev
+                        detailUrl: hit.info_page
                     };
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
@@ -93,7 +93,9 @@ DuckieTV.factory('RarBG', ["$q", "$http",
 
         var service = {
             activeToken: null,
-
+            config: {
+                noMagnet: false
+            },
             search: function(what) {
                 service.cancelSearch();
                 activeSearchRequest = $q.defer();
@@ -115,8 +117,11 @@ DuckieTV.factory('RarBG', ["$q", "$http",
     }
 ])
 
-.run(["TorrentSearchEngines", "RarBG",
-    function(TorrentSearchEngines, RarBG) {
-        TorrentSearchEngines.registerSearchEngine('RarBG', RarBG);
+.run(["TorrentSearchEngines", "SettingsService", "RarBG",
+    function(TorrentSearchEngines, SettingsService, RarBG) {
+        if (SettingsService.get('torrenting.enabled')) {
+
+            TorrentSearchEngines.registerSearchEngine('RarBG', RarBG);
+        }
     }
 ]);

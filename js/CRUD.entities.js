@@ -7,7 +7,37 @@
  */
 
 
-var Serie = CRUD.define({
+/** 
+ * Define POJO named functions for all the entities used.
+ * These will be extended by CreateReadUpdateDelete.js. It is important to call the CRUD.Entity constructor
+ * So that each instance can be set up with instance __values__ and __dirtyValues__ properties.
+ */
+function Serie() {
+    CRUD.Entity.call(this);
+}
+
+function Season() {
+    CRUD.Entity.call(this);
+}
+
+function Episode() {
+    CRUD.Entity.call(this);
+}
+
+function WatchListItem() {
+    CRUD.Entity.call(this);
+}
+
+function WatchListObject() {
+    CRUD.Entity.call(this);
+}
+
+
+/**
+ * Allow CRUD.js to register itself and the properties defined on each named function.
+ */
+
+CRUD.define(Serie, {
     className: 'Serie',
     table: 'Series',
     primary: 'ID_Serie',
@@ -56,19 +86,15 @@ var Serie = CRUD.define({
 }, {
 
     getEpisodes: function() {
-        return CRUD.Find('Episode', {
+        return Episode.findBySerie({
             ID_Serie: this.getID()
         }, {
             limit: 100000
-        }).then(function(episodes) {
-            return episodes;
         });
     },
 
     getSeasons: function() {
-        return CRUD.Find('Season', {
-            ID_Serie: this.getID()
-        });
+        return Season.findByID_Serie(this.getID());
     },
 
     /** 
@@ -95,9 +121,7 @@ var Serie = CRUD.define({
     },
 
     getLatestSeason: function() {
-        return CRUD.FindOne('Season', {
-            ID_Serie: this.getID()
-        });
+        return Season.findOneByID_Serie(this.getID());
     },
 
     getActiveSeason: function() {
@@ -141,12 +165,15 @@ var Serie = CRUD.define({
         }).then(function(result) {
             return result;
         });
+    },
+    toggleAutoDownload: function() {
+        this.autoDownload = this.autoDownload == '1' ? '0' : '1';
+        this.Persist();
     }
 });
 
 
-
-var Season = CRUD.define({
+CRUD.define(Season, {
     className: 'Season',
     table: 'Seasons',
     primary: 'ID_Season',
@@ -190,16 +217,13 @@ var Season = CRUD.define({
         ]
     }
 }, {
-
     getEpisodes: function() {
-        return CRUD.Find('Episode', {
-            ID_Season: this.getID()
-        });
+        return Episode.findByID_Season(this.getID());
     }
 });
 
 
-var Episode = CRUD.define({
+CRUD.define(Episode, {
     className: 'Episode',
     table: 'Episodes',
     primary: 'ID_Episode',
@@ -325,7 +349,7 @@ var Episode = CRUD.define({
 });
 
 
-var WatchListItem = CRUD.define({
+CRUD.define(WatchListItem, {
     className: 'WatchListItem',
     table: 'WatchList',
     primary: 'ID_WatchListItem',
@@ -344,7 +368,8 @@ var WatchListItem = CRUD.define({
 
 });
 
-var WatchListObject = CRUD.define({
+
+CRUD.define(WatchListObject, {
     className: 'WatchListObject',
     table: 'WatchListObject',
     primary: 'ID_WatchListObject',

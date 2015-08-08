@@ -25,7 +25,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             portscan: function() {
                 var self = this;
                 return this.request('version').then(function(result) {
-                    console.log("qBittorrent version result: ", result);
+                    console.info("qBittorrent version result: ", result);
                     return self.login().then(function() {
                         return true;
                     });
@@ -132,8 +132,10 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
     }
 ])
 
-.run(["DuckieTorrent", "qBittorrent32plus",
-    function(DuckieTorrent, qBittorrent32plus) {
-        DuckieTorrent.register('qBittorrent 3.2+', qBittorrent32plus);
+.run(["DuckieTorrent", "qBittorrent32plus", "SettingsService",
+    function(DuckieTorrent, qBittorrent32plus, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('qBittorrent 3.2+', qBittorrent32plus);
+        }
     }
 ]);

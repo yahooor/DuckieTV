@@ -35,7 +35,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
         $scope.createBackup = function() {
             $scope.backupTime = new Date();
             // Fetch all the series
-            CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
+            CRUD.executeQuery('select Series.TVDB_ID from Series').then(function(series) {
                 var out = {
                     settings: {},
                     series: {}
@@ -53,7 +53,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                 }
 
                 // Store watched episodes for each serie
-                CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
+                CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
                     while (row = res.next()) {
                         out.series[row.get('TVDB_ID')].push({
                             'TVDB_ID': row.get('epTVDB_ID'),
@@ -93,7 +93,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
 
         /**
          * Read the backup file and feed it to the FavoritesService to resolve and add.
-         * The Favoritesservice has a method to automagically import the watched episodes
+         * The FavoritesService has a method to automagically import the watched episodes
          * (which is a bit hacky as it should be part of the import)
          */
         var importBackup = function() {
@@ -106,6 +106,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                         localStorage.setItem(key, value);
                     });
                     SettingsService.restore();
+                    SettingsService.set('autodownload.lastrun', new Date().getTime());
                     angular.forEach(result.series, function(watched, TVDB_ID) {
                         FavoritesService.adding(TVDB_ID);
                         return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {

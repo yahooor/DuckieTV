@@ -32,9 +32,9 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
         };
 
         // Validates username and password with TraktTV
-        $scope.authorize = function(username, password) {
+        $scope.authorize = function(username, pin) {
             $scope.credentials.authorizing = true
-            return TraktTVv2.login(username, password).then(function(result) {
+            return TraktTVv2.login(pin).then(function(result) {
                 $scope.credentials.success = result;
                 $scope.credentials.error = false;
                 $scope.credentials.authorizing = false
@@ -48,6 +48,10 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
                     $scope.credentials.error = error.status + ' - ' + error.statusText;
                 }
             });
+        };
+
+        $scope.getPinUrl = function() {
+            return TraktTVv2.getPinUrl();
         };
 
         $scope.isDownloaded = function(tvdb_id) {
@@ -133,7 +137,7 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
                 });
             })
             // user shows times out for me still too often to test proerly
-            .then(TraktTVv2.usershows().then(function(data) {
+            .then(TraktTVv2.userShows().then(function(data) {
                 console.log("Found user shows from Trakt.tV", data);
                 data.map(function(show) {
                     $scope.traktTVSeries.push(show);
@@ -163,7 +167,7 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
 
             FavoritesService.favorites.map(function(serie) {
                 console.log("Adding serie '" + serie.name + "' to Trakt.tv: ", serie);
-                TraktTVv2.addToLibrary(serie.TVDB_ID);
+                TraktTVv2.addToCollection(serie.TVDB_ID);
                 serieIDs[serie.ID_Serie] = serie.TVDB_ID;
             });
 
