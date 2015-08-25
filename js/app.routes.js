@@ -93,7 +93,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controllerAs: 'serieslist',
                     bindToController: true
                 },
-                'slcontent@favorites': {
+                'content@favorites': {
                     templateUrl: 'templates/serieslist/favorites.html',
                     controller: 'localSeriesCtrl',
                     controllerAs: 'local',
@@ -105,13 +105,13 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('favorites.search', {
             url: '/search',
             views: {
-                'sltools@favorites': {
+                'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/localfilter.html',
                     controller: 'localSeriesCtrl',
                     controllerAs: 'localFilter',
                     bindToController: true
                 },
-                'slcontent@favorites': {
+                'content@favorites': {
                     templateUrl: 'templates/serieslist/searchresults.html'
                 }
             }
@@ -120,7 +120,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('favorites.add', {
             url: '/add',
             views: {
-                'sltools@favorites': {
+                'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
                     controller: function($state, $stateParams) {
                         this.query = $stateParams.query;
@@ -137,7 +137,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controllerAs: 'search',
                     bindToController: true
                 },
-                'slcontent@favorites': {
+                'content@favorites': {
                     templateUrl: 'templates/serieslist/trakt-trending.html',
                     controller: 'traktTvTrendingCtrl',
                     controllerAs: 'trending'
@@ -151,7 +151,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 SidePanelState: showSidePanel
             },
             views: {
-                'slcontent@favorites': {
+                'content@favorites': {
                     templateUrl: 'templates/serieslist/trakt-searching.html',
                     controller: 'traktTvSearchCtrl',
                     controllerAs: 'traktSearch'

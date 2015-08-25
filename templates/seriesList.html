@@ -1,6 +1,6 @@
 <!-- seriesList.html -->
 <div class="series-list" ng-class="{active: serieslist.activated}">
-  <div>
+  <div ng-if="serieslist.activated">
     <div class="tools">
       <div class="tools-header">
         <div class="right-switches">
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div ui-view="sltools" style="position:absolute;top:72px;width:100%;left:150px;z-index:3500"></div>
-    <div ui-view="slcontent"></div>
+    <div ui-view="tools" style="position:absolute;top:72px;width:100%;left:150px;z-index:3500"></div>
+    <div ui-view="content"></div>
   </div>
 </div>
