@@ -175,7 +175,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 'accept': 'application/json'
             };
             if (authorized.indexOf(type) > -1) {
-                headers['Authorization'] = 'Bearer ' + localStorage.getItem('trakttv.token');
+                headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token');
             }
             return $http.get(url, {
                 timeout: promise ? promise : 120000,
@@ -188,7 +188,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 // token auth expired
                 // show re-auth dialog
                 // restart request and return original promise
-                if (err.status != 0) { // only if this is not a cancelled request, rethrow
+                if (err.status !== 0) { // only if this is not a cancelled request, rethrow
                     console.error("Trakt tv error!", err);
                     throw "Error " + err.status + ":" + err.statusText;
                 }
@@ -198,14 +198,14 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
         var service = {
             serie: function(slug) {
                 return promiseRequest('serie', slug).then(function(serie) {
-                    return service.people(serie.slug_id).then(function(result) {
+                    return service.people(serie.trakt_id).then(function(result) {
                         serie.people = result;
                     }, rethrow).then(function() {
-                        return service.seasons(serie.slug_id).then(function(result) {
+                        return service.seasons(serie.trakt_id).then(function(result) {
                             serie.seasons = result;
                         }, rethrow).then(function() {
                             return $q.all(serie.seasons.map(function(season, index) {
-                                return service.episodes(serie.slug_id, season.number).then(function(episodes) {
+                                return service.episodes(serie.trakt_id, season.number).then(function(episodes) {
                                     serie.seasons[index].episodes = episodes;
                                     return true;
                                 }, rethrow);
@@ -244,16 +244,16 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 return (activeSearchRequest && activeSearchRequest.resolve);
             },
             trending: function(noCache) {
-                if (undefined == noCache) {
+                if (undefined === noCache) {
                     if (!localStorage.getItem('trakttv.trending.cache')) {
                         return $http.get('trakt-trending-500.json').then(function(result) {
                             var output = result.data.filter(function(show) {
-                                return typeof(show.show.ids.tvdb) !== "undefined"
+                                return typeof(show.show.ids.tvdb) !== "undefined";
                             }).map(function(show) {
                                 return parsers.trakt(show.show);
                             });
                             return output;
-                        })
+                        });
                     } else {
                         return $q(function(resolve) {
                             resolve(JSON.parse(localStorage.getItem('trakttv.trending.cache')));
@@ -301,7 +301,6 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Content-Type': 'application/json'
                     }
                 }).then(function(result) {
-                    debugger;
                     localStorage.setItem('trakttv.token', result.data.access_token);
                     localStorage.setItem('trakttv.refresh_token', result.data.refresh_token);
                     return result.data.token;
@@ -338,8 +337,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'trakt-api-version': 2,
                         'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Cookie': ''
+                        'Accept': 'application/json'
                     }
                 }).then(function(result) {
                     console.log("Episode watched:", serie, episode);
@@ -369,8 +367,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'trakt-api-version': 2,
                         'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Cookie': ''
+                        'Accept': 'application/json'
                     }
                 }).then(function(result) {
                     console.log("Episode un-watched:", serie, episode);
@@ -455,4 +452,4 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             });
         }
     });
-})
+});

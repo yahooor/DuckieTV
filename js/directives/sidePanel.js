@@ -5,28 +5,28 @@ DuckieTV.factory('SidePanelState', function() {
             isExpanded: false
         },
         show: function() {
-            if (window.innerHeight >= document.body.scrollHeight) {
-                document.body.style.overflowY = 'hidden';
+            if (document.body.scrollHeight > window.innerHeight) {
+                document.body.style.overflowY = 'auto';
             }
             document.body.scrollTop = 0;
             service.state.isShowing = true;
             service.state.isExpanded = false;
-            document.body.classList.add('sidePanelActive');
-            document.body.classList.remove('sidePanelExpanded');
+            document.body.classList.add('sidepanelActive');
+            document.body.classList.remove('sidepanelExpanded');
         },
         hide: function() {
-            document.body.style.overflowY = 'auto';
+            document.body.style.overflowY = '';
             service.state.isShowing = false;
             service.state.isExpanded = false;
-            document.body.classList.remove('sidePanelActive');
-            document.body.classList.remove('sidePanelExpanded');
+            document.body.classList.remove('sidepanelActive');
+            document.body.classList.remove('sidepanelExpanded');
         },
         expand: function() {
-            document.body.classList.add('sidePanelExpanded');
+            document.body.classList.add('sidepanelExpanded');
             service.state.isExpanded = true;
         },
         contract: function() {
-            document.body.classList.remove('sidePanelExpanded');
+            document.body.classList.remove('sidepanelExpanded');
             service.state.isExpanded = false;
         }
     };

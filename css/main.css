@@ -16,6 +16,18 @@ input:disabled {
     border-color: rgba(255,0,0,0.1) !important;
 }
 
+input[type=checkbox].big, .checkbox input[type=checkbox] {
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-top:10px;  
+    height:20px; 
+    width:20px;
+}
+
+input[type=checkbox], input[type=radio] {
+    -webkit-filter: invert(1);       
+}
+
 p, span {
     cursor: default;
 }
@@ -44,7 +56,7 @@ body > .container {
     padding: 20px;
     float: right;
     margin: 0;
-    -webkit-transition: padding-top 0.2s ease-in;
+    transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
 }
 body > .container.topsites {
     padding-top: 45px;
@@ -77,12 +89,6 @@ body .tooltip.left .tooltip-arrow {
 .printlogo {
     display: none;
 }
-.col-md-8 {
-    width: 60%;
-}
-.col-md-4 {
-    width: 40%;
-}
 input::-webkit-input-placeholder {
     color: rgba(255,255,255,0.4) !important;
     font-style: italic;
@@ -103,6 +109,11 @@ body {
     background-repeat:no-repeat;
     font-family: helvetica, sans-serif;
     color: #444;
+    -webkit-transition: all 0.5px ease-in-out;
+}
+
+body.modal-open sidepanel, body.modal-open div[date-picker] {
+    -webkit-filter: blur(1px);
 }
 
 h1, h2, h3 {
@@ -170,7 +181,10 @@ a:hover .glyphicon {
     display: block;
 }
 
-background-rotator, background-rotator > div {
+background-rotator {
+    opacity: 0.4;
+}
+background-rotator > div {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -180,7 +194,18 @@ background-rotator, background-rotator > div {
     background-repeat: no-repeat;
     background-position: center center;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+background-rotator > div.active {
+    opacity: 1;
+}
+background-rotator .placeholder {
+    z-index:-2;
+    background-image: url(../img/duckietv.png);
+    background-color: #A9A9A9;
+    background-size: initial;
+    opacity: 0;
 }
 
 #actionbar {
@@ -381,11 +406,10 @@ serieheader[mode='search'] {
     border-radius:0;
 }
 serieheader[mode='search'] h3 {
+    position: initial;
     margin-top: 0;
 }
-serieheader .poster.active, serieheader .banner.active  {
-    border: 1px solid yellow;
-}
+
 serieheader[mode=banner] {
     width: 50%;
     height: 140px;
@@ -456,11 +480,12 @@ serieheader[mode='poster'] .serieheader {
     height: 288px;
     width: 192px;
 }
+
 serieheader .poster {
     display: block;
     transition: width 0.4s ease-in-out, height 0.4s ease-in-out, background-color 0.175s ease-in-out, border 0.2s ease-in-out;
 }
-serieheader figure {
+serieheader .poster figure, serieheader .banner figure {
     width: 100%;
     height: 100%;
     position: relative;
@@ -468,6 +493,7 @@ serieheader figure {
 serieheader .poster .img {
     width: 100%;
     height: 100%;
+    opacity: 1;
     /* Standard size fits most posters however some are slightly smaller
      *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
@@ -475,14 +501,22 @@ serieheader .poster .img {
     background-repeat: no-repeat;
     transition: opacity .175s ease-in-out;
 }
+serieheader .poster.active, serieheader .banner.active  {
+    border: 1px solid yellow;
+}
+serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {
+    opacity: 0;
+}
 
+/* Hovering Poster Highlight */
 .series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
     background-color: #e5e5e5;
 }
 .series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img {
     opacity: 0.95;
 }
-/* Mini Poster style for series-list */
+
+/* Mini Poster Style */
 .miniposter .poster {
     height: 195px;
     width: 130px;
@@ -498,12 +532,6 @@ serieheader .poster .img {
     font-size: 22px;
 }
 
-.col-md-4 serieheader .poster {
-    width: 150px;
-}
-.col-md-4 serieheader[mode='poster'] {
-    width: 160px;
-}
 serieheader h3.title {
     color: white;
     background-color: rgba(0, 0, 0, 0.6);
@@ -516,11 +544,14 @@ serieheader h3.title {
     left:0px;
     right:0px;
 }
-serieheader[mode=search] h3 {
-    position: initial;
+serieheader[mode=poster] h3 {
+    font-size: 22px;
+    word-break: break-word;
+    white-space: normal;
+    margin: 0;
 }
-/* Be naughty and override ng-hide override for titles if the image failed to load */
 
+/* Be naughty and override ng-hide override for titles if the image failed to load */
 .series .poster.img-load-error figcaption h3 {
     display: initial !important;
 }
@@ -529,12 +560,6 @@ serieheader[mode=search] h3 {
     top: 0;
 }
 
-serieheader[mode=poster] h3 {
-    font-size: 22px;
-    word-break: break-word;
-    white-space: normal;
-    margin: 0;
-}
 serieheader .overview {
     color: white;
     font-size:10px;
@@ -552,7 +577,6 @@ serieheader em.earmark {
     height: 45px;
     padding: 5px;
 }
-
 serieheader em.earmark.trailer {
     top: 0px;
     left: 0px;
@@ -562,15 +586,12 @@ serieheader em.earmark.trailer {
     transition: opacity 0.2s ease-in-out;
     opacity: 0;
 }
-
 serieheader em.earmark.trailer .glyphicon {
     -webkit-filter: drop-shadow(2px 2px 2px black);
 }
-
 serieheader .serieheader:hover em.earmark.trailer {
     opacity: 1;
 }
-
 serieheader em.earmark.adding {
     background-color: rgba(236,210,70, 0.8);
 }
@@ -578,19 +599,16 @@ serieheader em.earmark.adding img {
     width: 100%;
     height: 100%;
 }
-
 serieheader em.earmark.delete, serieheader em.earmark.error {
     background-color: rgba(150,0,0, 0.4);
     cursor: pointer;
     -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translateX(100px);
 }
-
 serieheader em.earmark.adding, serieheader em.earmark.error {
 	-webkit-transform: translateX(0px);
     -webkit-transition: all 0.2s ease-in;
 }
-
 serieheader em.earmark.refresh {
     bottom: 0px;
     left: 0px;
@@ -599,17 +617,17 @@ serieheader em.earmark.refresh {
     -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translateX(-100px);
 }
-
 serieheader em.earmark.refresh.adding {
 	-webkit-transform: translateX(0px);	
 }
-
 serieheader em.earmark.delete i.glyphicon {
     display: initial;
     top: -1px;
     vertical-align: middle;
 }
-
+serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
+    -webkit-transform: translateX(0);
+}
 serieheader em.glyphicon{
   position: absolute;
   top: 0px;
@@ -622,8 +640,11 @@ serieheader em.glyphicon{
   -webkit-filter: drop-shadow(2px 2px 2px rgba(5,5,5,0.9));
 }
 
-serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
-    -webkit-transform: translateX(0);
+series-list {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: background-color 0.2s ease-in;
 }
 
 .series-list {
@@ -635,17 +656,28 @@ serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
     background-color: rgb(20, 22, 24);
     z-index: 1000;
     width: 100%;
-    -webkit-transition: all 0.3s ease-in;
-    -webkit-transform: translate3d(-100%, 0, 0);
+    transition: width 0.2s ease-in-out, transform 0.3s ease-in;
+    transform: translate3d(-100%, 0, 0);
 }
-.series-list.active {
-    -webkit-transform: translate3d(0, 0, 0);
+body.serieslistActive {
+    overflow-y: hidden;
 }
-
-.sidePanelActive .series-list {
+.serieslistActive > .container {
+    opacity: 0;
+}
+.serieslistActive series-list {
+    background-color: rgb(20, 22, 24);
+}
+.serieslistActive series-list > div {
+    transform: translate3d(0, 0, 0);
+}
+body.sidepanelActive {
+    overflow-y: hidden; 
+}
+.sidepanelActive series-list > div {
     width: calc(100% - 400px);
 }
-.sidePanelExpanded .series-list {
+.sidepanelExpanded series-list > div {
     width: calc(100% - 800px);
 }
 
@@ -1014,17 +1046,17 @@ div [date-picker] {
     transform-origin: top left;
 }
 [date-picker] {
+    border-radius: 10px;
     -webkit-user-select: none;
-    transition: all 0.5s ease-in-out;
-    z-index:101; 
-    position:relative;
+    transition: transform 0.4s ease-in-out, background-color 0.3s ease-in-out;
+    z-index: 101; 
+    position: relative;
 }
 [date-picker] span {
     -webkit-user-select:none;
 }
 [date-picker]:hover {
     background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
 }
 [date-picker] .glyphicon {
     cursor: pointer;
@@ -1053,32 +1085,29 @@ div [date-picker] {
     border: 1px solid rgba(255,255,255,0.2);
     text-align: center;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-    -webkit-transition: border 0.1s ease-in;
+    transition: border 0.2s ease-in-out, background-color 0.1s ease-in-out, transform 0.2s ease-in-out;
 }
 
 [date-picker].zoom td.day {
-    border: 5px solid rgba(255,255,255,0);
-    -webkit-transition: transform 0.2s ease-out;
+    border: 4px solid transparent;
 }
 [date-picker].zoom td.day:hover {
- -webkit-transform: scale(1.5);
-  background-color: transparent;
-  z-index: 1;
+    transform: scale(1.5);
+    background-color: transparent;
+    z-index: 1;
 }
 [date-picker].zoom td.day:first-child:hover {
- -webkit-transform: scale(1.5) translateX(95px);
+    transform: scale(1.5) translateX(95px);
 }
 [date-picker].zoom td.day:hover > span {
-  position: absolute;
-  top: 0px;
-  left: -30%;
-  display: block;
-  color: white;
-  width: 133%;
-  background-color: rgba(25,25,25,0.9);
-  z-index: -2;
-  text-align: left;
-  min-height: 75px;
+    top: 0px;
+    left: -30%;
+    color: white;
+    width: 133%;
+    background-color: rgba(25,25,25,0.9);
+    z-index: -2;
+    text-align: left;
+    min-height: 75px;
 }
 [date-picker].zoom td.day:hover > span em.dayofweek {
     display: block;
@@ -1269,17 +1298,17 @@ td.day {
 [date-picker] a.markdaywatched {
     font-size: 12px;
     position: absolute;
-    bottom: -18px;
-    left: 0px;
+    bottom: -39px;
+    left: 55%;
     margin-top: 0px;
-    width: 100%;
+    width: 45%;
     display: block;
     text-align: center;
     font-weight: normal;
     text-decoration: none;
     font-style: normal;
     padding: 0px;
-    height: 20px;
+    height: 40px;
     line-height: 19px;
     color: rgba(255,255,255,0.8);
     background-color: rgba(25, 25, 25, 0.9);
@@ -1291,11 +1320,65 @@ td.day {
 
 [date-picker] a.markdaywatched i {
     top: 2px;
-    margin-right: 7px;
+    margin-right: 4px;
 }
 [date-picker] a.markdaywatched span {
     cursor: pointer;
 }
+
+[date-picker] a.markdaydownloaded {
+    font-size: 12px;
+    position: absolute;
+    bottom: -39px;
+    left: 0px;
+    margin-top: 0px;
+    width: 55%;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    padding: 0px;
+    height: 40px;
+    line-height: 19px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(25, 25, 25, 0.9);
+}
+[date-picker] a.markdaydownloaded:hover {
+    background-color: rgba(45, 45, 45, 0.9);
+    text-decoration: underline;
+}
+
+[date-picker] a.markdaydownloaded i {
+    top: 2px;
+    margin-right: 4px;
+}
+[date-picker] a.markdaydownloaded span {
+    cursor: pointer;
+}
+
+[date-picker] .todo .todo_container {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin: 0;
+}
+[date-picker] .todo a.todo_event {
+    float: left;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: auto;
+    height: auto;
+}
+[date-picker] .todo a.todo_event h3 {
+    color: white;
+    margin: 7px 0px 1px 3px;
+}
+[date-picker] .todo a.todo_event em {
+    margin-left: 3px;
+}
+
 
 clicktrap {
     position:fixed; 
@@ -1494,10 +1577,10 @@ sidepanel > div {
     -webkit-transform: translateX(800px);
     -webkit-transition: transform 0.3s ease-in;
 }
-sidepanel > div.active {
+.sidepanelActive sidepanel .sidepanel {
     -webkit-transform: translateX(400px);   
 }
-sidepanel > div.active.expanded {
+.sidepanelExpanded sidepanel .sidepanel {
     -webkit-transform: translateX(0);   
 }
 
@@ -1529,7 +1612,7 @@ sidepanel .buttons strong {
 sidepanel .buttons a {
     display: block;
     padding: 15px;
-    margin: 5px 20px;
+    margin: 5px 15px;
     border: 1px solid #fff;
     border-radius: 10px;
     text-align: center;
@@ -1623,13 +1706,20 @@ sidepanel .rightpanel h2 {
     text-align: left;
 }
 
-sidepanel .leftpanel .episode-img {
-    height: 195px;
+.episode-img {
+    height: 149px;
+    width: 265px;
+    background-size: 100% 100%;
+}
+.episode-img.large {
+    height: 190px;
     width: 325px;
+}
+
+sidepanel .leftpanel .episode-img {
     margin: 0 auto;
     border: 8px solid #3a3a3a;
     border-radius: 5px;
-    background-size: 100% 100%;
 }
 sidepanel .leftpanel  h3 {
     text-align: center;
@@ -1674,11 +1764,16 @@ sidepanel .buttons .two-face-torrent .download {
     margin: 0;
 }
 sidepanel .buttons .two-face-torrent .auto-download {
+    padding: 15px 10px;
     margin: 0px;
     border-left: 0px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     text-decoration: none;
+}
+sidepanel .buttons .two-face-torrent .torrent-settings {
+    padding: 15px 10px;
+    margin: 0;
 }
 
 sidepanel .buttons .torrent-mini-remote-control > span {
@@ -2025,6 +2120,7 @@ sidepanel .seasons serieheader {
     display: block;
     margin-top: 5px;
     margin-bottom: 0;
+    transition: padding 0.2s ease-in;
 }
 
 .smallsettingicon {
@@ -2038,6 +2134,7 @@ sidepanel .seasons serieheader {
 #aboutpage {
     position: absolute;
     height: 100%;
+    width: 100%;
     overflow-y: auto;
     padding: 10px;
 }
@@ -2139,10 +2236,11 @@ ng-dial-gauge {
     margin-top: -2px !important;
     margin-left: -3px !important;
   }
-  sidepanel .buttons .two-face-torrent .download {
-    width: 289px;
-  }
   sidepanel .buttons .two-face-torrent .auto-download {
+    padding: 8px;
+    height: 43px;
+  }
+  sidepanel .buttons .two-face-torrent .torrent-settings {
     padding: 8px 10px;
     height: 43px;
   }

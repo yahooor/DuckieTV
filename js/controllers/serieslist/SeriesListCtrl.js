@@ -9,8 +9,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.sgEnabled = SettingsService.get('library.seriesgrid');
         this.hideEnded = false;
-        //Sidepanel State, 0=hidden,1=active,2=expanded
-        this.spState = 0;
 
         FavoritesService.flushAdding();
         this.query = ''; // local filter query, set from LocalSerieCtrl
@@ -18,22 +16,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.statusFilter = [];
 
         this.isFiltering = false;
-
-        function sidepanelMonitor(newValue) {
-            if (!SeriesListState.state.isShowing) return;
-            if (newValue[0].object.isExpanded) {
-                serieslist.spState = 2;
-            } else if (newValue[0].object.isShowing) {
-                serieslist.spState = 1;
-            } else {
-                serieslist.spState = 0;
-            }
-        }
-
-        Object.observe(SidePanelState.state, sidepanelMonitor);
-        sidepanelMonitor([{
-            object: SidePanelState.state
-        }]);
 
         $rootScope.$on('serieslist:filter', function(evt, query) {
             serieslist.query = query;
@@ -47,6 +29,10 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             serieslist.statusFilter = status;
         });
 
+        Object.observe(SeriesListState.state, function(newValue) {
+            serieslist.activated = newValue[0].object.isShowing;
+            $scope.$applyAsync();
+        });
 
         this.localFilter = function(el) {
             var nameMatch = true,
@@ -79,18 +65,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             }, 0);
         };
 
-        Object.observe(SeriesListState.state, function(newValue) {
-            serieslist.activated = newValue[0].object.isShowing;
-            if (!serieslist.activated) {
-                SidePanelState.hide();
-            }
-
-            sidepanelMonitor([{
-                object: SidePanelState.state
-            }]);
-            $scope.$applyAsync();
-        });
-
         this.getFavorites = function() {
             return FavoritesService.favorites;
         };
@@ -106,6 +80,9 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             this.mode = mode;
         };
 
+        /**
+         * Closes the trakt-serie-details sidepanel when exiting adding mode
+         */
         this.closeSidePanel = function() {
             SidePanelState.hide();
         };
@@ -155,7 +132,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             if (!FavoritesService.isAdding(serie.tvdb_id)) {
                 if (!FavoritesService.isAdded(serie.tvdb_id)) {
                     FavoritesService.adding(serie.tvdb_id);
-                    return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                    var id = ('imdb_id' in serie && serie.imdb_id != null) ? serie.imdb_id : serie.slug_id;
+                    return TraktTVv2.serie(id).then(function(serie) {
                         return FavoritesService.addFavorite(serie).then(function() {
                             $rootScope.$broadcast('storage:update');
                             FavoritesService.added(serie.tvdb_id);

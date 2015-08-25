@@ -6,26 +6,24 @@
  * preloads new image
  * Cross-fades between current loaded image and the new image
  */
-DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
-    function($rootScope, $document) {
+DuckieTV.directive('backgroundRotator', ["$rootScope",
+    function($rootScope) {
         return {
             restrict: 'E',
             scope: {
                 channel: '='
             },
-
-            template: ["<div style='z-index:-2; background-image:url(img/duckietv.png);background-color:darkgrey;background-size:initial;'></div><div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
-                "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
-            ].join(''),
-            link: function($scope, $attr) {
+            templateUrl: 'templates/backgroundRotator.html',
+            link: function($scope) {
                 $scope.format = ('chrome' in window) ? 'webp' : 'png';
                 $scope.bg1 = false;
                 $scope.bg2 = false;
                 $scope.bg1on = false;
                 $scope.bg2on = false;
+                var cooldown = false;
 
                 load = function(url) {
-                    var img = $document[0].createElement('img');
+                    var img = document.createElement('img');
                     img.onload = function() {
                         var target = $scope.bg1on ? 'bg2' : 'bg1';
                         $scope[target] = img.src;
@@ -37,7 +35,11 @@ DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
                 };
 
                 $rootScope.$on($scope.channel, function(event, url) {
-                    load(url);
+                    if (!cooldown) {
+                        load(url);
+                        cooldown = true;
+                        setTimeout(function() { cooldown = false }, 1300);
+                    }
                 });
             }
         };

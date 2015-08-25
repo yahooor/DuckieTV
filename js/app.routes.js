@@ -29,10 +29,14 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             return SidePanelState;
         }
 
-        function hideSidePanel(SidePanelState, SeriesListState) {
-            SeriesListState.hide();
+        function hideSidePanel(SidePanelState) {
             SidePanelState.hide();
             return SidePanelState;
+        }
+
+        function showSeriesList(SeriesListState) {
+            SeriesListState.show();
+            return SeriesListState;
         }
 
         function hideSeriesList(SeriesListState) {
@@ -64,7 +68,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('calendar', {
             url: '/',
             resolve: {
-                SidePanelState: hideSidePanel
+                SidePanelState: hideSidePanel,
+                SeriesListState: hideSeriesList
             }
         })
 
@@ -72,14 +77,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             sticky: true,
             url: '/favorites',
             resolve: {
-                SeriesListState: function(SeriesListState) {
-                    SeriesListState.show();
-                    return SeriesListState;
-                },
-                SidePanelState: function(SidePanelState) {
-                    SidePanelState.hide();
-                    return SidePanelState;
-                },
+                SeriesListState: showSeriesList,
+                SidePanelState: hideSidePanel,
                 FavoritesService: function(FavoritesService) {
                     return FavoritesService.waitForInitialization().then(function() {
                         return FavoritesService;
@@ -421,8 +420,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         });
 
-
         $urlRouterProvider.otherwise('/');
-
     }
 ]);

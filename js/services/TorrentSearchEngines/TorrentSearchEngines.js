@@ -10,8 +10,8 @@
  * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
  */
 
-DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService",
-    function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService) {
+DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver",
+    function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver) {
         var activeMagnet = false;
         var engines = {};
         var defaultEngine = 'ThePirateBay';
@@ -45,24 +45,44 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 }
             },
 
+            /**
+             * @todo
+             */
             removeSearchEngine: function(name) {
                 if (name in engines) {
                     delete engines[name];
                     //SettingsService....
                 }
             },
-
+            /**
+             * @todo
+             */
             disableSearchEngine: function(name) {
                 if (name in engines) {
                     //SettingsService....
                 }
             },
-
+            /**
+             * @todo
+             */
             enableSearchEngine: function(name) {
                 if (name in engines) {
                     //SettingsService....
                 }
             },
+
+            findEpisode: function(serie, episode) {
+                return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(seasonepisode) {
+                    return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
+                        query: SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + seasonepisode,
+                        TVDB_ID: episode.TVDB_ID
+                    }, {
+                        size: 'lg'
+                    });
+                });
+
+            },
+
 
             search: function(query, TVDB_ID, options) {
                 return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {

@@ -1,7 +1,7 @@
 <div class="episodes">
   <h2 style='color:white'>{{::season.getPageHeader(season.season)}}</h2>
   <p style="text-align:justify">{{::season.season.overview}}</p>
-  <strong translate-once="SIDEPANEL/EPISODES/episodes/lbl"></strong>
+  <strong translate-once="COMMON/episodes/lbl"></strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
       <tr>
@@ -20,8 +20,8 @@
           <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
 
           <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
-            <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
-            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
+            <torrent-dialog episode="episode" serie="sidepanel.serie"></torrent-dialog>
+            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
             </a>
           </div>
@@ -72,7 +72,7 @@
                 <i class="glyphicon glyphicon-floppy-saved" style="top:0"></i>
               </td>
               <td style="width:auto">
-                <strong translate-once="SIDEPANEL/EPISODES/mark-all-downloaded/lbl"></strong>
+                <strong translate-once="COMMON/mark-all-downloaded/lbl"></strong>
               </td>
             </tr>
           </table>
@@ -86,7 +86,7 @@
                 <i class="glyphicon glyphicon-eye-open" style="top:0"></i>
               </td>
               <td style="width:auto">
-                <strong translate-once="SIDEPANEL/EPISODES/mark-all-watched/lbl"></strong>
+                <strong translate-once="COMMON/mark-all-watched/lbl"></strong>
               </td>
             </tr>
           </table>

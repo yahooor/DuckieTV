@@ -5,20 +5,22 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 isShowing: false
             },
             show: function() {
-                document.body.style.overflowY = 'hidden';
                 document.body.scrollTop = 0;
                 service.state.isShowing = true;
                 document.querySelector('#actionbar_favorites').classList.add('active');
+                document.body.classList.add("serieslistActive");
                 $rootScope.$applyAsync();
                 document.body.classList.add("seriesListActive");
             },
             hide: function() {
-                document.body.style.overflowY = 'auto';
                 service.state.isShowing = false;
                 $rootScope.$applyAsync();
                 document.querySelector('#actionbar_favorites').classList.remove('active');
                 document.querySelector('#actionbar_favorites').classList.remove('spin');
                 document.body.classList.remove("seriesListActive");
+                setTimeout(function() {
+                    $state.go('calendar');
+                }, 500);
             },
             toggle: function() {
                 if (!service.state.isShowing) {
@@ -67,7 +69,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 if (el === null || !el.offsetParent || !el.offsetParent.offsetParent || noScroll) {
                     return;
                 }
-                duration = duration || 500;
+                duration = duration || 400;
                 var start = parent.scrollTop;
                 var end = el.offsetParent.offsetParent.offsetTop;
                 var clock = Date.now();
@@ -104,7 +106,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
 
                 if (maxPosters != 0) {
-                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight)+'px';
+                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight) + 'px';
                 }
                 $scope.$applyAsync();
                 scrollToActive();

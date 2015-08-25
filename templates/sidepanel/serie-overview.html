@@ -35,33 +35,33 @@
       <tr>
         <td colspan="2">
             <a ui-sref="serie.details()">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/series-details/lbl"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/series-details/lbl"></strong>
             </a>
         </td>
       </tr>
       <tr class="two-face">
         <td>
             <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/seasons/lbl"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/seasons/lbl"></strong>
             </a>
         </td>
         <td>
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/episodes/lbl"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
             </a>
         </td>
       </tr>
       <tr>
         <td colspan="2">
            <a ng-click="sidepanel.markAllWatched(sidepanel.serie)">
-              <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/mark-all-watched/lbl"></strong>
+              <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="COMMON/mark-all-watched/lbl"></strong>
             </a>
         </td>
       </tr>
       <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
            <a ng-click="sidepanel.serie.toggleAutoDownload()">
-              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/auto-download/btn"></strong>: 
+              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once="COMMON/auto-download/lbl"></strong>: 
               <strong translate-once="COMMON/enabled/lbl" ng-if="sidepanel.serie.autoDownload == 1"></strong>
               <strong translate-once="COMMON/disabled/lbl" ng-if="sidepanel.serie.autoDownload == 0"></strong>
             </a>
@@ -87,6 +87,14 @@
              <strong translate-once="SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn"></strong>
           </a>
         </td>
+      </tr>
+      <tr ng-if="getSetting('torrenting.enabled')">
+        <td colspan="2">
+            <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)">
+              <i class="glyphicon glyphicon-cog"></i>
+              <strong translate-once="COMMON/torrent-settings/lbl"></strong><strong>{{::sidepanel.serie.name}}</strong>
+            </a>
+          </td>
       </tr>
       <tr>
         <td colspan="2">

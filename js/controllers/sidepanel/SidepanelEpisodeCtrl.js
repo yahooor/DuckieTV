@@ -11,17 +11,26 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     };
 
     this.torrentSettings = function() {
-        dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
+        var d = dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
             serie: self.serie
         }, {
             bindToController: true,
             size: 'xs'
         });
+
+        d.result.then(function() {
+            //console.debug('Success');
+            d = undefined;
+        }, function() {
+            //console.debug('Cancelled');
+            d = undefined;
+
+        });
     };
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return serie.name + ' ' + episode.getFormattedEpisode();
     };
 
     this.isTorrentClientConnected = function() {

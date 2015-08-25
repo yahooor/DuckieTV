@@ -24,7 +24,7 @@ DuckieTV
                 $scope.TVDB_ID = TVDB_ID;
             }
             // If query is empty, promt user to enter something
-            if (q == null || q == "" || q == undefined) {
+            if (q === null || q === "" || q === undefined) {
                 console.warn("Query is empty!");
                 $scope.searching = false;
                 $scope.error = 'null';
@@ -32,8 +32,24 @@ DuckieTV
                 return;
             }
 
+            /**
+             * Word-by-word scoring for search results.
+             * All words need to be in the search result's release name, or the result will be filtered out.
+             */
+            function filterByScore(item) {
+                var score = 0;
+                var query = q.toLowerCase().split(' ');
+                name = item.releasename.toLowerCase();
+                query.map(function(part) {
+                    if (name.indexOf(part) > -1) {
+                        score++;
+                    }
+                });
+                return (score == query.length);
+            }
+
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
-                    $scope.items = results;
+                    $scope.items = results.filter(filterByScore);
                     $scope.searching = false;
                 },
                 function(e) {
@@ -110,7 +126,9 @@ DuckieTV
             replace: true,
             scope: {
                 q: '=q',
-                TVDB_ID: '=tvdbid'
+                TVDB_ID: '=tvdbid',
+                serie: '=serie',
+                episode: '=episode'
             },
             template: '<a class="torrent-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: ["$scope",
@@ -123,7 +141,11 @@ DuckieTV
                     };
                     // Opens the torrent search with the episode selected
                     $scope.openDialog = function() {
-                        TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
+                        if ($scope.serie && $scope.episode) {
+                            TorrentSearchEngines.findEpisode($scope.serie, $scope.episode);
+                        } else {
+                            TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
+                        }
                     };
                 }
             ]
