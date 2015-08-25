@@ -2,21 +2,21 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
     function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http) {
 
         var serieslist = this;
-        this.state = $state;
 
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.sgEnabled = SettingsService.get('library.seriesgrid');
+        this.state = SeriesListState.state.mode;
         this.hideEnded = false;
 
         FavoritesService.flushAdding();
+
+        this.isFiltering = false;
         this.query = ''; // local filter query, set from LocalSerieCtrl
         this.genreFilter = []; // genre filter from localseriectrl 
         this.statusFilter = [];
-
-        this.isFiltering = false;
-
+        
         $rootScope.$on('serieslist:filter', function(evt, query) {
             serieslist.query = query;
         });
@@ -31,6 +31,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         Object.observe(SeriesListState.state, function(newValue) {
             serieslist.activated = newValue[0].object.isShowing;
+            serieslist.state = newValue[0].object.mode;
             $scope.$applyAsync();
         });
 
@@ -73,12 +74,16 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Set the series list display mode to either banner or poster.
          * Temporary mode is for enabling for instance the search, it's not stored.
          */
-        this.setMode = function(mode, temporary) {
+        this.setDisplayMode = function(mode, temporary) {
             if (!temporary) {
                 SettingsService.set('series.displaymode', mode);
             }
             this.mode = mode;
         };
+
+        this.setState = function(state) {
+            this.state = state;
+        }
 
         /**
          * Closes the trakt-serie-details sidepanel when exiting adding mode
@@ -92,27 +97,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          */
         this.toggleSmall = function() {
             this.isSmall = !this.isSmall;
-            SettingsService.set('library.smallposters', this.isSmall);
         };
-
-        /**
-         * Toggle or untoggle the favorites panel
-         */
-        this.activate = function(el) {
-            this.activated = true;
-        };
-
-        /**
-         * Close the drawer
-         */
-        this.closeDrawer = function() {
-            this.activated = false;
-            document.body.style.overflowY = 'auto';
-        };
-
-        this.hideSidePanel = function() {
-            SidePanelState.hide();
-        }
 
         /**
          * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.

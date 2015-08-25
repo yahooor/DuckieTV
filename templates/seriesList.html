@@ -1,11 +1,11 @@
 <!-- seriesList.html -->
-<div class="series-list" ng-class="{active: serieslist.activated}">
+<div class="series-list">
   <div ng-if="serieslist.activated">
     <div class="tools">
       <div class="tools-header">
         <div class="right-switches">
           <div class="tools_switch">
-            <div class="view-as" ng-class="{'fadeout':serieslist.state.includes('favorites.add')}">
+            <div class="view-as" ng-class="{'fadeout':serieslist.state == 'adding'}">
               View As:
               <span class="dropdown" dropdown on-toggle="toggled(open)">
                 <span class="dropdown-toggle" dropdown-toggle>
@@ -14,8 +14,8 @@
                   <i class="caret"></i>
                 </span>
                 <span class="dropdown-items">
-                  <span class="dropdown-item" ng-click="serieslist.setMode('poster')" translate-once="Poster">Poster</span>
-                  <span class="dropdown-item" ng-click="serieslist.setMode('banner')" translate-once="Banner">Banner</span>
+                  <span class="dropdown-item" ng-click="serieslist.setDisplayMode('poster')" translate-once="Poster"></span>
+                  <span class="dropdown-item" ng-click="serieslist.setDisplayMode('banner')" translate-once="Banner"></span>
                   <span class="dropdown-item" translate-once="List"></span>
                 </span>
               </span>
@@ -30,20 +30,20 @@
         </div>
         <div class="header-main">
           <div class="header-main-inner">
-            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites')}">
-              <a ui-sref="favorites" ng-click="serieslist.hideSidePanel()">
+            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites'}">
+              <a ui-sref="favorites" ng-click="serieslist.setState('favorites');serieslist.closeSidePanel();">
                 <span translate-once="Library"></span>
               </a>
             </div>
             <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state.includes('favorites.add')}">
-              <a ui-sref="favorites.add">
+            <div class="tools_btn" ng-class="{'active': serieslist.state == 'adding'}">
+              <a ui-sref="favorites.add" ng-click="serieslist.setState('adding')">
                 <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
               </a>
             </div>
             <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state.is('favorites.search')}">
-              <a ui-sref="favorites.search" ng-click="serieslist.hideSidePanel()">
+            <div class="tools_btn" ng-class="{'active': serieslist.state == 'filtering'}">
+              <a ui-sref="favorites.search" ng-click="serieslist.setState('filtering');serieslist.closeSidePanel();">
                 <span translate-once="Filter Library"></span>
               </a>
             </div>
