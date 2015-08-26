@@ -2,10 +2,10 @@
 <div class="series-list">
   <div ng-if="serieslist.activated">
     <div class="tools">
-      <div class="tools-header">
+      <div class="tools_header">
         <div class="right-switches">
           <div class="tools_switch">
-            <div class="view-as" ng-class="{'fadeout':serieslist.state == 'adding'}">
+            <div class="switch-header view-as" ng-class="{'fadeout':serieslist.state == 'adding'}">
               View As:
               <span class="dropdown" dropdown on-toggle="toggled(open)">
                 <span class="dropdown-toggle" dropdown-toggle>
@@ -17,6 +17,22 @@
                   <span class="dropdown-item" ng-click="serieslist.setDisplayMode('poster')" translate-once="Poster"></span>
                   <span class="dropdown-item" ng-click="serieslist.setDisplayMode('banner')" translate-once="Banner"></span>
                   <span class="dropdown-item" translate-once="List"></span>
+                </span>
+              </span>
+            </div>
+            <div class="switch-header sort-by" ng-class="{'fadeout':serieslist.state == 'adding'}">
+              Sort By:
+              <span class="dropdown" dropdown on-toggle="toggled(open)">
+                <span class="dropdown-toggle" dropdown-toggle>
+                  <span ng-show="serieslist.sortMode == 'title'" translate-once="Title"></span>
+                  <span ng-show="serieslist.sortMode == 'newest'" translate-once="Newest First"></span>
+                  <span ng-show="serieslist.sortMode == 'oldest'" translate-once="Oldest First"></span>
+                  <i class="caret"></i>
+                </span>
+                <span class="dropdown-items">
+                  <span class="dropdown-item" translate-once="Title"></span>
+                  <span class="dropdown-item" translate-once="Newest First"></span>
+                  <span class="dropdown-item" translate-once="Oldest First"></span>
                 </span>
               </span>
             </div>
