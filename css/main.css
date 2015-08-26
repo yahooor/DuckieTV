@@ -2293,9 +2293,9 @@ series-list .tools {
 .tools_switch {
     color: gray;
     display: inline-block;
-    /* Is confusing but we need to be 1px closer to the top to account for the
-     * 2px border when a button is active, this somehow brings it back inline */
-    padding: 15px 16px 16px 16px;
+    /* 1px closer to the top to account for 2px border and bottom padding
+     * doesn't matter unless it wraps */
+    padding: 15px 16px 4px 16px;
     transition: inherit;
 }
 
@@ -2377,6 +2377,7 @@ series-list .tools {
 .header-main {
     position: static;
     width: auto;
+    display: inline-flex;
 }
 .header-main-inner {
     position: relative;
