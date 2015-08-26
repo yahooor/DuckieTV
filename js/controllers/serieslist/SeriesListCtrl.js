@@ -8,7 +8,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.sortMode = 'title'; // mode to sort the series by. Title, Newest Added, Oldest Added
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.sgEnabled = SettingsService.get('library.seriesgrid');
-        this.state = SeriesListState.state.mode;
+        this.state;
         this.hideEnded = false;
 
         FavoritesService.flushAdding();
@@ -35,6 +35,21 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             serieslist.state = newValue[0].object.mode;
             $scope.$applyAsync();
         });
+
+        // Function to get the state if we're loading onto the SeriesList instead of opening
+        var getState = function () {
+            var state = $state.current.name;
+            if (state == 'favorites') {
+                return 'favorites';
+            } else if ($state.includes('favorites.add')) {
+                return 'favorites.add';
+            } else if (state == 'favorites.search') {
+                return 'favorites.search';
+            } else {
+                return 'favorites';
+            }
+        }
+        this.state = getState();
 
         this.localFilter = function(el) {
             var nameMatch = true,
