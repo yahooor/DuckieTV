@@ -6,5 +6,30 @@
     </serieHeader>
     <serieHeader ng-if="serieslist.mode == 'banner'" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="banner" style="left:{{grid.getLeft($index, filteredFavorites.length)}}px;top:{{grid.getTop($index)}}px">   
     </serieHeader>
+    <table ng-if="serieslist.mode == 'list'" class="listmode" width="100%">
+    	<tr class="headers">
+    		<th></th>
+    		<th>Title</th>
+    		<th>Unwatched Episodes</th>
+    		<th>Rating</th>
+    		<th>Classification</th>
+    	<tr class="list" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" ui-sref="serie({id: serie.ID_Serie})" ui-sref-active="active">
+    		<td class="img">
+		    		<div lazy-background="{{serie.poster}}"></div>
+	    	</td>
+	    	<td class="title">
+	    		<span class="title">{{::serie.name}}</span>
+	    	</td>
+	    	<td class="watched">
+	    		<span>{{::serie.notWatchedCount}}</span>
+	    	</td>
+	    	<td class="rating">
+	    		<span>{{::serie.rating}}% ({{::serie.ratingcount}})</span>
+	    	</td>
+	    	<td class="classification">
+	    		<span>{{::serie.contentrating}}</span>
+	    	</td>
+    	</tr>
+    </table>
 	</div>
 </div>

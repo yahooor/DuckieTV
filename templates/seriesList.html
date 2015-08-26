@@ -31,13 +31,14 @@
               <span class="dropdown" dropdown on-toggle="toggled(open)">
                 <span class="dropdown-toggle" dropdown-toggle>
                   <span ng-show="serieslist.mode == 'poster'" translate-once="Poster"></span>
-                  <span ng-show="serieslist.mode == 'banner'" translate-once="Poster"></span>
+                  <span ng-show="serieslist.mode == 'banner'" translate-once="Banner"></span>
+                  <span ng-show="serieslist.mode == 'list'" translate-once="List"></span>
                   <i class="caret"></i>
                 </span>
                 <span class="dropdown-items">
                   <span class="dropdown-item" ng-click="serieslist.setDisplayMode('poster')" translate-once="Poster"></span>
                   <span class="dropdown-item" ng-click="serieslist.setDisplayMode('banner')" translate-once="Banner"></span>
-                  <span class="dropdown-item" translate-once="List"></span>
+                  <span class="dropdown-item" ng-click="serieslist.setDisplayMode('list')" translate-once="List"></span>
                 </span>
               </span>
             </div>

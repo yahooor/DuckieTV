@@ -2406,4 +2406,60 @@ series-list .tools {
 .tools_header.condensed .right-switches {
     float: none;
     padding-top: 14px;
-}  
+}
+
+.listmode .headers {
+    height: 35px;
+    background-color: rgb(83, 83, 83);
+    font-size: 13px;
+    color: black;
+}
+
+.listmode .img {
+    width: 70px;
+    position: relative;
+}
+
+.listmode .list {
+    width: 100%;
+    height: 75px;
+    font-size: 19px;
+    background-color: rgb(113, 113, 113);
+    border-top: 1px solid rgb(97, 97, 97);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.125s ease-in;
+}
+.listmode .list:hover, .listmode .list:nth-of-type(odd):hover {
+    background-color: rgb(128,128,128);
+}
+.listmode .list:nth-of-type(odd) {
+    background-color: rgb(119, 119, 119);
+}
+.listmode .list.active {
+    background-color: rgb(140,140,140);
+    text-decoration: underline;
+}
+.listmode .list:first-child {
+    border: 0;
+}
+.listmode .img div {
+    position: absolute;
+    height: 75px;
+    top: 0;
+    width: 50px;
+    left: 0;
+    background-size: 100% 100%;
+    transition: height .1s ease-in, width .1s ease-in;
+}
+.listmode .img div:not(.img-loading):hover {
+    height: 150px;
+    width: 100px;
+    z-index: 1;
+}
+.listmode .title span {
+    color: black;
+}
+.listmode span {
+    cursor: pointer;
+}
