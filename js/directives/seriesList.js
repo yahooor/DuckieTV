@@ -45,6 +45,18 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
     };
 })
 
+.directive('toolbarMonitor', function() {
+    return {
+        restrict: 'A',
+        controllerAs: 'toolbarMonitor',
+        controller: function() {
+            this.getOffset = function() {
+                return document.getElementById('tools').clientHeight;
+            }
+        }
+    };
+})
+
 .directive('seriesGrid', function() {
     return {
         restrict: 'A',

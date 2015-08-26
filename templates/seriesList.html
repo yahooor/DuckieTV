@@ -1,29 +1,8 @@
 <!-- seriesList.html -->
-<div class="series-list">
+<div id="series-list" toolbar-monitor>
   <div ng-if="serieslist.activated">
-    <div class="tools">
+    <div id="tools">
       <div class="tools_header">
-        <div class="header-main">
-          <div class="header-main-inner">
-            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites'}">
-              <a ui-sref="favorites" ng-click="serieslist.setState('favorites');serieslist.closeSidePanel();">
-                <span translate-once="Library"></span>
-              </a>
-            </div>
-            <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.add'}">
-              <a ui-sref="favorites.add" ng-click="serieslist.setState('favorites.add')">
-                <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
-              </a>
-            </div>
-            <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.search'}">
-              <a ui-sref="favorites.search" ng-click="serieslist.setState('favorites.search');serieslist.closeSidePanel();">
-                <span translate-once="Filter Library"></span>
-              </a>
-            </div>
-          </div>
-        </div>
         <div class="right-switches">
           <div class="tools_switch">
             <div class="switch-header view-as" ng-class="{'fadeout':serieslist.state == 'favorites.add'}">
@@ -66,9 +45,32 @@
             </div>
           </div>
         </div>
+        <div class="header-main">
+          <div class="header-main-inner">
+            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites'}">
+              <a ui-sref="favorites" ng-click="serieslist.setState('favorites');serieslist.closeSidePanel();">
+                <span translate-once="Library"></span>
+              </a>
+            </div>
+            <i class="dot"></i>
+            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.add'}">
+              <a ui-sref="favorites.add" ng-click="serieslist.setState('favorites.add')">
+                <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
+              </a>
+            </div>
+            <i class="dot"></i>
+            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.search'}">
+              <a ui-sref="favorites.search" ng-click="serieslist.setState('favorites.search');serieslist.closeSidePanel();">
+                <span translate-once="Filter Library"></span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div ui-view="tools" style="position:absolute;top:72px;width:100%;left:150px;z-index:3500"></div>
-    <div ui-view="content"></div>
+    <div id="series-list-inner">
+      <div ui-view="tools" class="tools"></div>
+      <div ui-view="content" class="content"></div>
+    </div>
   </div>
 </div>
