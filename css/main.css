@@ -2453,8 +2453,8 @@ series-list .series {
     background-color: rgb(140,140,140);
     text-decoration: underline;
 }
-.listmode .list:first-child {
-    border: 0;
+.listmode tr:nth-of-type(2) {
+    border-top: 0;
 }
 .listmode .img div {
     position: absolute;
