@@ -657,6 +657,7 @@ body.sidepanelActive {
 }
 .sidepanelActive series-list #series-list {
     width: calc(100% - 400px);
+    min-width: 400px;
 }
 .sidepanelExpanded series-list #series-list {
     width: calc(100% - 800px);
@@ -1535,7 +1536,7 @@ sidepanel > div {
     right: 0;
     bottom: 0;
     width: 800px;
-    z-index: 850;
+    z-index: 1000;
     color:white;
     background-color: rgba(25,25,25,1);
     -webkit-transform: translateX(800px);
@@ -2248,6 +2249,7 @@ series-list {
     background-color: rgb(51, 51, 51);
     z-index: 11;
     position: relative;
+    min-width: 420px;
 }
 
 #series-list #series-list-inner {
