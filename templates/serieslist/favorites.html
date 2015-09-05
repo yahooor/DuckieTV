@@ -13,6 +13,7 @@
     		<th>Unwatched Episodes</th>
     		<th>Rating</th>
     		<th>Classification</th>
+    	</tr>
     	<tr class="list" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" ui-sref="serie({id: serie.ID_Serie})" ui-sref-active="active">
     		<td class="img">
 		    		<div lazy-background="{{serie.poster}}"></div>

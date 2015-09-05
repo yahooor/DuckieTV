@@ -183,6 +183,7 @@ a:hover .glyphicon {
 
 background-rotator {
     opacity: 0.4;
+    transition: -webkit-filter 0.3s linear;
 }
 background-rotator > div {
     width: 100%;
@@ -643,11 +644,11 @@ serieheader em.glyphicon{
 body.serieslistActive {
     overflow-y: hidden;
 }
+.serieslistActive background-rotator {
+    -webkit-filter: blur(8px);
+}
 .serieslistActive > .container {
     opacity: 0;
-}
-.serieslistActive series-list {
-    background-color: rgb(20, 22, 24);
 }
 .serieslistActive #series-list {
     transform: translate3d(0, 0, 0);
@@ -1541,6 +1542,7 @@ sidepanel > div {
     background-color: rgba(25,25,25,1);
     -webkit-transform: translateX(800px);
     -webkit-transition: transform 0.3s ease-in;
+    overflow-x: hidden;
 }
 .sidepanelActive sidepanel .sidepanel {
     -webkit-transform: translateX(400px);   
@@ -2232,7 +2234,6 @@ series-list {
 
 #series-list {
     position: fixed;
-    background-color: rgb(20, 22, 24);
     z-index: 1000;
     width: 100%;
     height: 100%;
@@ -2309,7 +2310,7 @@ series-list .series {
     display: inline-block;
     /* 1px closer to the top to account for 2px border and bottom padding
      * doesn't matter unless it wraps */
-    padding: 15px 16px 4px 16px;
+    padding: 15px 16px 4px 0px;
     transition: inherit;
 }
 
@@ -2392,6 +2393,7 @@ series-list .series {
     position: static;
     width: auto;
     display: inline-flex;
+    margin-left: 16px;
 }
 .header-main-inner {
     position: relative;
@@ -2439,24 +2441,20 @@ series-list .series {
     width: 100%;
     height: 75px;
     font-size: 19px;
-    background-color: rgb(113, 113, 113);
-    border-top: 1px solid rgb(97, 97, 97);
+    background-color: rgba(255,255,255,0.2);
     text-align: left;
     cursor: pointer;
     transition: background-color 0.125s ease-in;
 }
 .listmode .list:hover, .listmode .list:nth-of-type(odd):hover {
-    background-color: rgb(128,128,128);
+    background-color: rgba(255,255,255,0.35);
 }
 .listmode .list:nth-of-type(odd) {
-    background-color: rgb(119, 119, 119);
+    background-color: rgba(255,255,255,0.27);
 }
 .listmode .list.active {
-    background-color: rgb(140,140,140);
+    background-color: rgba(255,255,255,0.4);
     text-decoration: underline;
-}
-.listmode tr:nth-of-type(2) {
-    border-top: 0;
 }
 .listmode .img div {
     position: absolute;
@@ -2472,7 +2470,7 @@ series-list .series {
     width: 100px;
     z-index: 1;
 }
-.listmode .title span {
+.listmode .list td {
     color: black;
 }
 .listmode span {

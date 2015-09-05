@@ -1,76 +1,75 @@
 <!-- seriesList.html -->
 <div id="series-list" toolbar-monitor>
-  <div ng-if="serieslist.activated">
-    <div id="tools">
-      <div class="tools_header">
-        <div class="right-switches">
-          <div class="tools_switch">
-            <div class="switch-header view-as" ng-class="{'fadeout':serieslist.state == 'favorites.add'}">
-              View As:
-              <span class="dropdown" dropdown on-toggle="toggled(open)">
-                <span class="dropdown-toggle" dropdown-toggle>
-                  <span ng-show="serieslist.mode == 'poster'" translate-once="Poster"></span>
-                  <span ng-show="serieslist.mode == 'banner'" translate-once="Banner"></span>
-                  <span ng-show="serieslist.mode == 'list'" translate-once="List"></span>
-                  <i class="caret"></i>
-                </span>
-                <span class="dropdown-items">
-                  <span class="dropdown-item" ng-click="serieslist.setDisplayMode('poster')" translate-once="Poster"></span>
-                  <span class="dropdown-item" ng-click="serieslist.setDisplayMode('banner')" translate-once="Banner"></span>
-                  <span class="dropdown-item" ng-click="serieslist.setDisplayMode('list')" translate-once="List"></span>
-                </span>
-              </span>
-            </div>
-            <div class="switch-header sort-by" ng-class="{'fadeout':serieslist.state == 'favorites.add'}">
-              Sort By:
-              <span class="dropdown" dropdown on-toggle="toggled(open)">
-                <span class="dropdown-toggle" dropdown-toggle>
-                  <span ng-show="serieslist.sortMode == 'title'" translate-once="Title"></span>
-                  <span ng-show="serieslist.sortMode == 'newest'" translate-once="Newest First"></span>
-                  <span ng-show="serieslist.sortMode == 'oldest'" translate-once="Oldest First"></span>
-                  <i class="caret"></i>
-                </span>
-                <span class="dropdown-items">
-                  <span class="dropdown-item" translate-once="Title"></span>
-                  <span class="dropdown-item" translate-once="Newest First"></span>
-                  <span class="dropdown-item" translate-once="Oldest First"></span>
-                </span>
-              </span>
-            </div>
-            <div class="poster-size" ng-class="{'fadeout':serieslist.mode == 'banner'}">
-              <!-- Make posters smaller button -->
-              <span ng-click="serieslist.toggleSmall()">
-                <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
-              </span>
-            </div>
+  <div id="tools">
+    <div class="tools_header">
+      <div class="header-main">
+        <div class="header-main-inner">
+          <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites'}">
+            <a ui-sref="favorites" ng-click="serieslist.setState('favorites');serieslist.closeSidePanel();">
+              <span translate-once="Library"></span>
+            </a>
           </div>
-        </div>
-        <div class="header-main">
-          <div class="header-main-inner">
-            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites'}">
-              <a ui-sref="favorites" ng-click="serieslist.setState('favorites');serieslist.closeSidePanel();">
-                <span translate-once="Library"></span>
-              </a>
-            </div>
-            <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.add'}">
-              <a ui-sref="favorites.add" ng-click="serieslist.setState('favorites.add')">
-                <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
-              </a>
-            </div>
-            <i class="dot"></i>
-            <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.search'}">
-              <a ui-sref="favorites.search" ng-click="serieslist.setState('favorites.search');serieslist.closeSidePanel();">
-                <span translate-once="Filter Library"></span>
-              </a>
-            </div>
+          <i class="dot"></i>
+          <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.add'}">
+            <a ui-sref="favorites.add" ng-click="serieslist.setState('favorites.add')">
+              <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
+            </a>
+          </div>
+          <i class="dot"></i>
+          <div class="tools_btn" ng-class="{'active': serieslist.state == 'favorites.search'}">
+            <a ui-sref="favorites.search" ng-click="serieslist.setState('favorites.search');serieslist.closeSidePanel();">
+              <span translate-once="Filter Library"></span>
+            </a>
           </div>
         </div>
       </div>
+      <div class="right-switches">
+        <div class="tools_switch">
+          <div class="switch-header view-as" ng-class="{'fadeout':serieslist.state == 'favorites.add'}">
+            View As:
+            <span class="dropdown" dropdown on-toggle="toggled(open)">
+              <span class="dropdown-toggle" dropdown-toggle>
+                <span ng-show="serieslist.mode == 'poster'" translate-once="Poster"></span>
+                <span ng-show="serieslist.mode == 'banner'" translate-once="Banner"></span>
+                <span ng-show="serieslist.mode == 'list'" translate-once="List"></span>
+                <i class="caret"></i>
+              </span>
+              <span class="dropdown-items">
+                <span class="dropdown-item" ng-click="serieslist.setDisplayMode('poster')" translate-once="Poster"></span>
+                <span class="dropdown-item" ng-click="serieslist.setDisplayMode('banner')" translate-once="Banner"></span>
+                <span class="dropdown-item" ng-click="serieslist.setDisplayMode('list')" translate-once="List"></span>
+              </span>
+            </span>
+          </div>
+          <div class="switch-header sort-by" ng-class="{'fadeout':serieslist.state == 'favorites.add'}">
+            Sort By:
+            <span class="dropdown" dropdown on-toggle="toggled(open)">
+              <span class="dropdown-toggle" dropdown-toggle>
+                <span ng-show="serieslist.sortMode == 'title'" translate-once="Title"></span>
+                <span ng-show="serieslist.sortMode == 'newest'" translate-once="Newest First"></span>
+                <span ng-show="serieslist.sortMode == 'oldest'" translate-once="Oldest First"></span>
+                <i class="caret"></i>
+              </span>
+              <span class="dropdown-items">
+                <span class="dropdown-item" translate-once="Title"></span>
+                <span class="dropdown-item" translate-once="Newest First"></span>
+                <span class="dropdown-item" translate-once="Oldest First"></span>
+              </span>
+            </span>
+          </div>
+          <div class="poster-size" ng-class="{'fadeout':serieslist.mode == 'banner' || serieslist.mode == 'list'}">
+            <!-- Make posters smaller button -->
+            <span ng-click="serieslist.toggleSmall()">
+              <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
     </div>
-    <div id="series-list-inner">
-      <div ui-view="tools" class="tools"></div>
-      <div ui-view="content" class="content"></div>
-    </div>
+  </div>
+  <div id="series-list-inner">
+    <div ui-view="tools" class="tools"></div>
+    <div ui-view="content" class="content"></div>
   </div>
 </div>
