@@ -3,11 +3,7 @@
 1. Introduction
   1. Purpose
   2. Scope
-  3. Definitions
-  4. Acronyms
-  5. Abbreviations
-  6. References
-  7. Overview
+  3. References
 
 2. Description
   1. Product perspective
@@ -74,5 +70,6 @@ Some libraries are being used in the development.
 - angular-dialgauge - [dial gauge directive](https://cdjackson.github.io/angular-dialgauge/)
 
 ## Specific Requirements
+DuckieTV runs on any browser and any modern Operating System, requiring only that the user has internet access. It runs on external servers provided by
 
-DuckieTV runs on any browser and any modern Operating System, requiring only that the user has internet access. 
+> Google's, GitHub's and Reddit's infrastructure
