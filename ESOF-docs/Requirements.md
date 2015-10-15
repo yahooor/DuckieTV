@@ -28,16 +28,16 @@
   6. Other requirements
 
 ## Introduction
-DuckieTV was originially developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by indexing torrents from multiple websites.
+DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by indexing torrents from multiple websites.
 
 No acronyms or abbreviation were used in the project.
 
-The author states that [DuckieTV](http://schizoduckie.github.io/DuckieTV/?from=duckie.tv/),
+The author states that DuckieTV,
 
 > is build with Angular.js and Bootstrap.css. On top of that, [some] libraries are used.
 
 ## Description
-As we can state from *DuckieTV*,
+As [DuckieTV](http://schizoduckie.github.io/DuckieTV/?from=duckie.tv/) describes,
 
 > DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar.
 
