@@ -23,8 +23,6 @@
       3. Associated functional requirements
   3. Perfomance requirements
   4. Design constraints
-  5. Software system attributes
-  6. Other requirements
 
 ## Introduction
 DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by indexing torrents from multiple websites.
@@ -76,6 +74,10 @@ DuckieTV runs on any browser and any modern Operating System, requiring only tha
 There are two communication protocols used, BitTorrent (for downloading the shows and movies) and HTTP (to make requests to some websites such as [Open Subtitles](http://api.opensubtitles.org), [TrackTV](https://api-v2launch.trakt.tv/), [IMDB](http://www.imdb.com/) and [Torrent Search Engines](https://github.com/SchizoDuckie/DuckieTV/tree/angular/js/services/TorrentSearchEngines).
 
 ### System Features
+* Chrome
+
+[DuckieTV](http://schizoduckie.github.io/DuckieTV/?from=duckie.tv/) is a huge fan of Chrome, so DuckieTV can be installed as an extension for this same browser without the need of a standalone version. A **trial version** is available [here](http://duckietv.github.io/DuckieTV/)
+
 * Calendar
 
 The calendar is used to schedule TV-Shows and movies download. In order to be used, the client must have either a local torrent client or a browser like [Chrome](https://www.google.pt/chrome/browser/desktop/). In both cases it also requires an Internet connection.
@@ -93,3 +95,11 @@ Because there is no server side data storage, the user's privacy is kept intact.
 > As soon you install DuckieTV it runs locally without sending statistics anywhere. There is no server to connect to, no infrastructure to bring down, and no logging from DuckieTV’s side of anything you do within the app, and there never will be.
 
 > Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
+
+### Perfomance Requirements
+
+### Design Constraints
+DuckieTV was developed in order to fit different screen dimensions, however it only runs on desktop or laptop computers, it is not compatible with mobile devices.
+Since it is a JavaScript application, its design is only limited by modern CSS's limitations.
+
+### Software System Attributes
