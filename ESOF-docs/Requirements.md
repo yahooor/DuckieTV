@@ -75,3 +75,21 @@ DuckieTV runs on any browser and any modern Operating System, requiring only tha
 
 There are two communication protocols used, BitTorrent (for downloading the shows and movies) and HTTP (to make requests to some websites such as [Open Subtitles](http://api.opensubtitles.org), [TrackTV](https://api-v2launch.trakt.tv/), [IMDB](http://www.imdb.com/) and [Torrent Search Engines](https://github.com/SchizoDuckie/DuckieTV/tree/angular/js/services/TorrentSearchEngines).
 
+### System Features
+* Calendar
+
+The calendar is used to schedule TV-Shows and movies download. In order to be used, the client must have either a local torrent client or a browser like [Chrome](https://www.google.pt/chrome/browser/desktop/). In both cases it also requires an Internet connection.
+
+* Proxy
+
+It is possible to bypass Internet Service Providers (ISP) torrent censorship with DuckieTV. It works by finding mirrors for the target websites that are not currently blocked by them.
+
+* Privacy
+
+Because there is no server side data storage, the user's privacy is kept intact.
+
+> The only statistics tracked for DuckieTV are the visits to the public GitHub site (by Google Analytics) and the installations in the Chrome Webstore.
+
+> As soon you install DuckieTV it runs locally without sending statistics anywhere. There is no server to connect to, no infrastructure to bring down, and no logging from DuckieTV’s side of anything you do within the app, and there never will be.
+
+> Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
