@@ -49,7 +49,7 @@ Additionally the program is available in 14 different languages.
 
 The target market is composed by TV-Show addicts that prefer to see movies at home over buying expensive tickets in a cinema. Previously there was no software that allowed users to organize their favorite shows and downloads in a calendar like DuckieTV does.
 
-There are currently no constraints on using this program, except for North Korea where the program is illegal.
+There are currently no constraints on using this program, except for countries where the program might be illegal because it uses torrents.
 
 Some libraries are being used in the development.
 - CreateReadUpdateDelete.js - [Javascript Sqlite ORM](https://github.com/SchizoDuckie/CreateReadUpdateDelete.js/)
