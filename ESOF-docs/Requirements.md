@@ -10,7 +10,6 @@
   2. Product functions
   3. User characteristcs
   4. Constraints
-  5. Assumptions and dependencies
 
 3. Specific requirements
   1. External interface requirements
@@ -73,3 +72,6 @@ Some libraries are being used in the development.
 DuckieTV runs on any browser and any modern Operating System, requiring only that the user has internet access. It runs on external servers provided by
 
 > Google's, GitHub's and Reddit's infrastructure
+
+There are two communication protocols used, BitTorrent (for downloading the shows and movies) and HTTP (to make requests to some websites such as [Open Subtitles](http://api.opensubtitles.org), [TrackTV](https://api-v2launch.trakt.tv/), [IMDB](http://www.imdb.com/) and [Torrent Search Engines](https://github.com/SchizoDuckie/DuckieTV/tree/angular/js/services/TorrentSearchEngines).
+
