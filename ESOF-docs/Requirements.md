@@ -104,3 +104,12 @@ Because there is no server side data storage, the user's privacy is kept intact.
 ### Design Constraints
 DuckieTV was developed in order to fit different screen dimensions, however it only runs on desktop or laptop computers, it is not compatible with mobile devices.
 Since it is a JavaScript application, its design is only limited by modern CSS's limitations.
+
+### Authors
+* João Silva ([up201305892@fe.up.pt](mailto:up201305892@fe.up.pt))
+* Luís Figueiredo ([up201304295@fe.up.pt](mailto:up201304295@fe.up.pt))
+* Pedro Teles ([up201305101@fe.up.pt](mailto:up201305101@fe.up.pt))
+* Tiago Figueiredo ([ei12069@fe.up.pt](mailto:ei12069@fe.up.pt))
+
+**Faculdade de Engenharia da Universidade do Porto - MIEIC**
+**2015-10-04**
