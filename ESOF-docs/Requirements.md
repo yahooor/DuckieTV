@@ -25,29 +25,33 @@
   4. [Design Constraints] (#design-constraints)
 
 ## Introduction
-DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by indexing torrents from multiple websites.
+DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by searching for torrents on multiple external websites.
 
 No acronyms or abbreviation were used in the project.
 
 The author states that DuckieTV,
 
-> is build with Angular.js and Bootstrap.css. On top of that, [some] libraries are used.
+> is built with Angular.js and Bootstrap.css. On top of that, [some] libraries are used.
 
 ## Description
-As [DuckieTV](http://schizoduckie.github.io/DuckieTV/?from=duckie.tv/) describes,
+As [DuckieTV](http://duckie.tv/) describes,
 
 > DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar.
 
-This tool may be integrated directly to local Torrent clients such as Deluge, uTorrent, qBittorrent, Tixati, Transmission and Vuze. This allows the user to keep an eye on the download progress of its torrents without switching to another application.
+This tool may be integrated directly with local Torrent clients such as Deluge, uTorrent, qBittorrent, Tixati, Transmission and Vuze. This allows the user to keep an eye on the download progress of its torrents without switching to another application.
 
-Another feature that is widely used by its users is the ability to automatically download shows that they have enjoyed as soon as they air.
+Another feature that is widely used by its users is the ability to automatically download shows that they have enjoyed as soon as they air and become available on any of the torrent sites supported.
 
 Additionally the program is available in 14 different languages.
 
 ![Calendar](http://schizoduckie.github.io/DuckieTV/img/screenshots/full/calendar.jpg)
 ![Main Page](http://schizoduckie.github.io/DuckieTV/img/screenshots/full/trending.jpg)
 
-The target market is composed by TV-Show addicts that prefer to see movies at home over buying expensive tickets in a cinema. Previously there was no software that allowed users to organize their favorite shows and downloads in a calendar like DuckieTV does.
+The target market is composed by TV-Show addicts and can be separated into two distinct types of use.
+- Users that just want to keep track of when their favorite TV shows are airing, regardless of network or country. It doesn't matter if a show airs on BBC2, or is a Netflix or Amazon or HBO exclusive, the user can put it on their personal TV calendar regardless of the user's home country. 
+- Users that prefer to see TV Shows at home without being locked out by regional copyright and release-schedule restrictions, or don't want to subscribe to different on-demand TV providers to see their favorite shows.
+
+- Previously there was no software that allowed users to organize their favorite shows and downloads in a calendar like DuckieTV does.
 
 There are currently no constraints on using this program, except for countries where the program might be illegal because it uses torrents.
 
@@ -67,20 +71,18 @@ Some libraries are being used in the development.
 - angular-dialgauge - [dial gauge directive](https://cdjackson.github.io/angular-dialgauge/)
 
 ## Specific Requirements
-DuckieTV runs on any browser and any modern Operating System, requiring only that the user has internet access. It runs on external servers provided by
+DuckieTV runs on all chromium browsers and any modern Operating System, requiring only that the user has internet access. It does not use custom server-side code but runs completely on the clientside. Some resources are cached on GitHub's infrastructure though.
 
-> Google's, GitHub's and Reddit's infrastructure
-
-There are two communication protocols used, BitTorrent (for downloading the shows and movies) and HTTP (to make requests to some websites such as [Open Subtitles](http://api.opensubtitles.org), [TrackTV](https://api-v2launch.trakt.tv/), [IMDB](http://www.imdb.com/) and [Torrent Search Engines](https://github.com/SchizoDuckie/DuckieTV/tree/angular/js/services/TorrentSearchEngines).
+DuckieTV itself uses only HTTP to communicate with external resources. Having said that, It can interface with the BitTorrent protocol if the user installs any of the supported third-party Torrent Clients via their Web API's. Other API's such as [Open Subtitles](http://api.opensubtitles.org), [TrackTV](https://api-v2launch.trakt.tv/), [IMDB](http://www.imdb.com/) and [Torrent Search Engines](https://github.com/SchizoDuckie/DuckieTV/tree/angular/js/services/TorrentSearchEngines) all run on HTTP.
 
 ### System Features
 * Chrome
 
-[DuckieTV](http://schizoduckie.github.io/DuckieTV/?from=duckie.tv/) is a huge fan of Chrome, so DuckieTV can be installed as an extension for this same browser without the need of a standalone version. A **trial version** is available [here](http://duckietv.github.io/DuckieTV/)
+[DuckieTV](http://duckie.tv/) is a huge fan of Chrome, so DuckieTV can be installed as an extension for this same browser without the need of a standalone version. An **online demo** is available [here](http://duckietv.github.io/DuckieTV/)
 
 * Calendar
 
-The calendar is used to schedule TV-Shows and movies download. In order to be used, the client must have either a local torrent client or a browser like [Chrome](https://www.google.pt/chrome/browser/desktop/). In both cases it also requires an Internet connection.
+The calendar is used to schedule TV-Shows and movies download. In order to be used, the client just has to have either or a browser like [Chrome](https://www.google.pt/chrome/browser/desktop/) and install the extension or download the standalone version for their platform. In both cases it also requires an Internet connection to populate the calendar, after that the program can run without an internet connection (but then it will not fetch updates, obviously).
 
 * Proxy
 
@@ -102,7 +104,8 @@ Because there is no server side data storage, the user's privacy is kept intact.
 ## Perfomance Requirements
 
 ## Design Constraints
-DuckieTV was developed in order to fit different screen dimensions, however it only runs on desktop or laptop computers, it is not compatible with mobile devices.
+DuckieTV was developed in order to fit different screen dimensions. While it can technically run on a (high-end) Android phone, however, the use of a Tablet is advised when you want to run it on the Android platform because there are no small-screen optimisations.
+
 Since it is a JavaScript application, its design is only limited by modern CSS's limitations.
 
 ### Authors
