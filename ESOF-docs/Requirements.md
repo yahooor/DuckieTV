@@ -16,7 +16,7 @@
     1. User interfaces
     2. Hardware interfaces
     3. Communications interfaces
-  2. [System Features] (#system features)
+  2. System Features
     1. System feature
       1. Introduction / Purpose of feature
       2. Stimulus / Response sequence
