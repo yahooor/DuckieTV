@@ -11,18 +11,18 @@
   3. User characteristcs
   4. Constraints
 
-3. [Specific requirements] (#specific requirements)
+3. [Specific Requirements] (#specific requirements)
   1. External interface requirements
     1. User interfaces
     2. Hardware interfaces
     3. Communications interfaces
-  2. [System features] (#system features)
+  2. [System Features] (#system features)
     1. System feature
       1. Introduction / Purpose of feature
       2. Stimulus / Response sequence
       3. Associated functional requirements
-  3. [Perfomance requirements] (#perfomance requirements)
-  4. [Design constraints] (#design constraints)
+  3. [Perfomance Requirements] (#perfomance requirements)
+  4. [Design Constraints] (#design constraints)
 
 ## Introduction
 DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by indexing torrents from multiple websites.
