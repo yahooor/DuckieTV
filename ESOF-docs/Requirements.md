@@ -112,4 +112,4 @@ Since it is a JavaScript application, its design is only limited by modern CSS's
 * Tiago Figueiredo ([ei12069@fe.up.pt](mailto:ei12069@fe.up.pt))
 
 **Faculdade de Engenharia da Universidade do Porto - MIEIC**
-**2015-10-04**
+**2015-10-16**
