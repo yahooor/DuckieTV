@@ -25,7 +25,7 @@
   4. [Design Constraints] (#design-constraints)
 
 ## Introduction
-DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows and movies that the user wants to watch in a calendar. It may also be used to download said movies by searching for torrents on multiple external websites.
+DuckieTV was originally developed as a private project so [SchizoDuckie](https://github.com/SchizoDuckie) could learn AngularJS. Nowadays this project is used to organize and catalogue all the TV shows that the user has watched and / or wants to watch in a calendar. It may also be used to download said TV Shows by searching for torrents on multiple external websites.
 
 No acronyms or abbreviation were used in the project.
 
