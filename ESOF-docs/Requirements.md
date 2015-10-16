@@ -96,6 +96,9 @@ Because there is no server side data storage, the user's privacy is kept intact.
 
 > Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
 
+#### Use Case Diagram
+![Use Case](http://i.imgur.com/s6eBXHM.png)
+
 ### Perfomance Requirements
 
 ### Design Constraints
