@@ -9,19 +9,19 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
             // Reference to window
             var win = gui.Window.get();
             // listen for standalone menu go-to events
-            win.on('standalone.calendar', function() {
+           $rootScope.$on('standalone.calendar', function() {
                 $state.go('calendar');
                 SeriesListState.hide();
             });
-            win.on('standalone.favorites', function() {
+           $rootScope.$on('standalone.favorites', function() {
                 SidePanelState.hide();
                 SeriesListState.show();
                 $state.go('favorites');
             });
-            win.on('standalone.settings', function() {
+           $rootScope.$on('standalone.settings', function() {
                 $state.go('settings');
             });
-            win.on('standalone.about', function() {
+           $rootScope.$on('standalone.about', function() {
                 $state.go('about');
             });
         };
