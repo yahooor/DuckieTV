@@ -176,13 +176,13 @@ DuckieTV.run(['$rootScope',
         });
 
         // on winstate event, update winState
-        win.on('winstate', function(winstate) {
+        $rootScope.$on('winstate', function(winstate) {
             console.debug('winState=',winstate);
             winState = winstate;
         });
         
         // on locationreload event, delete tray and listeners
-        win.on('locationreload', function() {
+        $rootScope.$on('locationreload', function() {
             if (tray !== null) {
                 console.debug('on locationreload: tray.remove id=',tray.id);
                 tray.remove();
