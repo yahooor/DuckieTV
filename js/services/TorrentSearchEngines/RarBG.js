@@ -23,12 +23,22 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var parsers = {
             search: function(result) {
                 var output = [];
-                if (result.data.error) {
-                    if (result.data.error == 'Invalid token. Use get_token for a new one!') {
-                        return 'tokenExpired';
-                    } else {
-                        return [];
-                    }
+                if (result.data.error_code) {
+                    switch (result.data.error_code) {
+                        case 20: // No results found
+                            return [];
+                            break;
+                        case 4: // Invalid token. Use get_token for a new one!
+                            return 4;
+                            break;
+                        case 5: // Too many requests per second. Maximum requests allowed are 1req/2sec Please try again later!
+                            console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error);
+                            return 5;
+                            break;
+                        default:
+                            console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error);
+                            return [];
+                    };
                 };
                 result.data.torrent_results.map(function(hit) {
                     var out = {
@@ -65,13 +75,14 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var promiseRequest = function(type, param, param2, promise) {
             var url = getUrl(type, param, param2);
             return $q(function(resolve, reject) {
-                var timeout = 2100;
+                var timeout = (type === 'token') ? 0 : 2100;
                 nextRequest = nextRequest + timeout;
                 setTimeout(function() {
                     $http.get(url, {
                         timeout: promise ? promise : 120000,
                         cache: false,
                     }).then(function(result) {
+                        nextRequest = new Date().getTime();
                         resolve(parsers[type](result));
                     }, function(err) {
                         throw "Error " + err.status + ":" + err.statusText;
@@ -108,18 +119,25 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             config: {
                 noMagnet: false
             },
-            search: function(what, isTokenExpired) {
+            search: function(what, noCancel, isTokenExpired) {
+                if (!noCancel) {
+                   noCancel = false; 
+                };
                 if (!isTokenExpired) {
                     isTokenExpired = false;
                 };
-                service.cancelSearch();
+                if (noCancel !== true) {
+                    service.cancelSearch();
+                };
                 activeSearchRequest = $q.defer();
                 return getToken(isTokenExpired).then(function(token) {
                     return promiseRequest('search', token, what, activeSearchRequest.promise).then(function(results) {
                         activeSearchRequest = false;
-                        if (results == 'tokenExpired') {
+                        if (results === 4) { // token expired
+                            return service.search(what, true, true);
+                        } else if (results === 5) { // retry later
                             return service.search(what, true);
-                        }
+                        };
                         return results;
                     });
                 });
