@@ -31,9 +31,7 @@ TransmissionData.extends(TorrentData, {
         return this.name;
     },
     getProgress: function() {
-        var unit = (this.percentDone % 1 === 0) ? 1 : 100;
-// debugging for #689
-console.debug('progress before and after', this.percentDone, this.round(this.percentDone * unit, 1) );       
+        var unit = (this.getClient().getAPI().isSeedBox()) ? 1 : 100;
         return this.round(this.percentDone * unit, 1);
     },
     getDownloadSpeed: function() {
@@ -163,6 +161,9 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                         })
                     }
                 });
+            },
+            isSeedBox: function() {
+                return (this.config.key !== '/transmission/rpc');
             },
             execute: function(method, id) {
                 return this.rpc(method, {
