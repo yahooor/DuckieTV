@@ -35,7 +35,7 @@ DuckieTV.run(['$rootScope',
         traymenu.append(showdtv);
 
         // Add a ADLStatus button
-        settings = new gui.MenuItem({
+        adlstatus = new gui.MenuItem({
             label: "Show ADLStatus",
             click: function() {
                 $rootScope.$emit('standalone.adlstatus');
@@ -43,7 +43,7 @@ DuckieTV.run(['$rootScope',
                 $rootScope.$emit('restoredtv');
             }
         });
-        traymenu.append(settings);
+        traymenu.append(adlstatus);
 
         // Add a calendar button
         calendar = new gui.MenuItem({
