@@ -6,9 +6,8 @@ DuckieTV.run(['$rootScope',
     if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         var tray = null,
             showdtv, calendar, favorites, settings, about, exit, traymenu;
-        var gui = require('nw.gui');
-        var win = gui.Window.get();
-        var alwaysShowTray = (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y');
+        var win = nw.Window.get();
+        var alwaysShowTray = (localStorage.getItem('standalone.alwaysShowTray') === 'Y');
         var winState = 'normal';
         if (localStorage.getItem('standalone.position')) {
             var pos = JSON.parse(localStorage.getItem('standalone.position'));
@@ -17,15 +16,15 @@ DuckieTV.run(['$rootScope',
         
         // debugging
         console.debug('debugging source version=3');
-        console.debug('standalone.alwaysShowTray='+window.localStorage.getItem('standalone.alwaysShowTray'));
-        console.debug('standalone.startupMinimized='+window.localStorage.getItem('standalone.startupMinimized'));
-        console.debug('minimizeSystray='+window.localStorage.getItem('standalone.minimizeSystray'));
-        console.debug('closeSystray='+window.localStorage.getItem('standalone.closeSystray'));
+        console.debug('standalone.alwaysShowTray=' + localStorage.getItem('standalone.alwaysShowTray'));
+        console.debug('standalone.startupMinimized=' + localStorage.getItem('standalone.startupMinimized'));
+        console.debug('minimizeSystray=' + localStorage.getItem('standalone.minimizeSystray'));
+        console.debug('closeSystray=' + localStorage.getItem('standalone.closeSystray'));
 
         // Create the menu, only needs to be made once
-        traymenu = new gui.Menu();
+        traymenu = new nw.Menu();
         // Add a show button
-        showdtv = new gui.MenuItem({
+        showdtv = new nw.MenuItem({
             label: "Show DuckieTV",
             click: function() {
                 console.debug('menu showdtv: emit.restoredtv');
@@ -35,7 +34,7 @@ DuckieTV.run(['$rootScope',
         traymenu.append(showdtv);
 
         // Add a ADLStatus button
-        adlstatus = new gui.MenuItem({
+        adlstatus = new nw.MenuItem({
             label: "Show ADLStatus",
             click: function() {
                 $rootScope.$emit('standalone.adlstatus');
@@ -46,7 +45,7 @@ DuckieTV.run(['$rootScope',
         traymenu.append(adlstatus);
 
         // Add a calendar button
-        calendar = new gui.MenuItem({
+        calendar = new nw.MenuItem({
             label: "Show Calendar",
             click: function() {
                 $rootScope.$emit('standalone.calendar');
@@ -57,7 +56,7 @@ DuckieTV.run(['$rootScope',
         traymenu.append(calendar);
 
         // Add a favorites button
-        favorites = new gui.MenuItem({
+        favorites = new nw.MenuItem({
             label: "Show Favorites",
             click: function() {
                 $rootScope.$emit('standalone.favorites');
@@ -68,7 +67,7 @@ DuckieTV.run(['$rootScope',
         traymenu.append(favorites);
 
         // Add a settings button
-        settings = new gui.MenuItem({
+        settings = new nw.MenuItem({
             label: "Show Settings",
             click: function() {
                 $rootScope.$emit('standalone.settings');
@@ -79,7 +78,7 @@ DuckieTV.run(['$rootScope',
         traymenu.append(settings);
 
         // Add a about button
-        about = new gui.MenuItem({
+        about = new nw.MenuItem({
             label: "Show About",
             click: function() {
                 $rootScope.$emit('standalone.about');
@@ -90,12 +89,12 @@ DuckieTV.run(['$rootScope',
         traymenu.append(about);
 
         // Add a separator
-        traymenu.append(new gui.MenuItem({
+        traymenu.append(new nw.MenuItem({
             type: 'separator'
         }));
 
         // Add a exit button
-        exit = new gui.MenuItem({
+        exit = new nw.MenuItem({
             label: "Exit",
             click: function() {
                 win.close(true);
@@ -113,7 +112,7 @@ DuckieTV.run(['$rootScope',
                 console.debug('createTray: tray exists id=',tray.id);
                 return true;
              };
-            tray = new gui.Tray({
+            tray = new nw.Tray({
                 title: navigator.userAgent,
                 icon: 'img/logo/icon64.png'
             });
@@ -130,7 +129,7 @@ DuckieTV.run(['$rootScope',
         };
 
         // If we're always showing the tray, create it now (default is N or null)
-        if (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y') {
+        if (localStorage.getItem('standalone.alwaysShowTray') === 'Y') {
             console.debug('alwaysShowTray');
             createTray();
         };
@@ -146,7 +145,7 @@ DuckieTV.run(['$rootScope',
         win.on('minimize', function() {
             // Should we minimize to systray or taskbar? (default is N or null)
             console.debug('on minimize');
-            if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
+            if (localStorage.getItem('standalone.minimizeSystray') === 'Y') {
                 console.debug('on minimize: minimizeSystray');
                 // Hide window
                 win.hide();
@@ -175,7 +174,7 @@ DuckieTV.run(['$rootScope',
         // On Close Event, fired before anything happens
         win.on('close', function() {
             // does close mean go to systray? (default N or null)
-            if (window.localStorage.getItem('standalone.closeSystray') === 'Y') {
+            if (localStorage.getItem('standalone.closeSystray') === 'Y') {
                 console.debug('closeSystray');
                 // Hide window
                 win.hide();

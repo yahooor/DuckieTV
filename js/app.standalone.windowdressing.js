@@ -9,8 +9,7 @@ DuckieTV.run(['$rootScope',
      */
     if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
-        var gui = require('nw.gui');
-        var win = gui.Window.get();
+        var win = nw.Window.get();
         var winState = 'normal';
         var pos, maximize, unmaximize;
 
