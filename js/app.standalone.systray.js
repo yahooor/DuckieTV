@@ -118,7 +118,6 @@ DuckieTV.run(['$rootScope',
             });
             console.debug('createTray: tray created id=',tray.id);
             tray.on('click', function() {
-                $rootScope.$emit('standalone.calendar');
                 console.debug('tray.on click: emit.restoredtv');
                 $rootScope.$emit('restoredtv');
             });
