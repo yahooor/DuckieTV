@@ -123,17 +123,19 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 }
             },
             search: function(what, noCancel, orderBy, isTokenExpired) {
+                noCancel = (noCancel == undefined) ? false : noCancel; 
+                orderBy= (orderBy == undefined) ? 'seeders' : orderBy; 
+                isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired;
+                if (noCancel === false) {
+                    service.cancelSearch();
+                };
                 if (!activeSearchRequest) {
-                    noCancel = (noCancel == undefined) ? false : noCancel; 
-                    orderBy= (orderBy == undefined) ? 'seeders' : orderBy; 
-                    isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired;
-                    if (noCancel === false) {
-                        service.cancelSearch();
-                    };
                     activeSearchRequest = $q.defer();
                     return getToken(isTokenExpired).then(function(token) {
                         return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise).then(function(results) {
-                            activeSearchRequest.resolve(true);
+                            if (activeSearchRequest && activeSearchRequest.resolve) {
+                                activeSearchRequest.resolve(true);
+                            };
                             activeSearchRequest = false;
                             if (results === 4) { // token expired
                                 return service.search(what, true, orderBy, true);
