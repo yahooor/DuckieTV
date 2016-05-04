@@ -20,6 +20,17 @@ var DuckieTV = angular.module('DuckieTV', [
 ])
 
 /**
+ * Disable debug info for speed improvements
+ */
+.config(['$compileProvider', function($compileProvider) {
+    if (localStorage.getItem('optin_error_reporting')) {
+        $compileProvider.debugInfoEnabled(true);
+    } else {
+        $compileProvider.debugInfoEnabled(false);
+    }
+}])
+
+/**
  * Unsafe HTML entities pass-through.
  * (Used for for instance typeAheadIMDB.html)
  */
@@ -34,7 +45,7 @@ var DuckieTV = angular.module('DuckieTV', [
 /**
  * DuckietvReload service is injected whenever a window.location.reload is required,
  * which ensures that standalone gets some pre-processing done before actioning
-*  the window.location.reload()  fixes #569
+ * the window.location.reload()  fixes #569
  */
 .service('DuckietvReload', ["$rootScope", function($rootScope) {
     var service = {
@@ -219,7 +230,7 @@ var DuckieTV = angular.module('DuckieTV', [
             if (autoBackupPeriod === 'never') {
                 console.warn('autoBackup is set to never be scheduled');
                 return; // autoBackup is not requested
-            };
+            }
             // fetch last run time
             var localDT = new Date().getTime();
             if (!localStorage.getItem('autobackup.lastrun')) {
@@ -240,12 +251,12 @@ var DuckieTV = angular.module('DuckieTV', [
                     break;
                 default:
                     console.error('unexpected autoBackupPeriod', autoBackupPeriod);
-            };
+            }
             // schedule the timer for the next backup
             var timeToNextBackup = (nextBackupDT - localDT);
             if (timeToNextBackup > 0) {
                 console.info('The next autoBackup is scheduled for', new Date(parseInt(nextBackupDT)));
-            };
+            }
             scheduleAutoBackup();
         }
     }
